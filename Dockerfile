@@ -168,6 +168,7 @@ RUN R -e "install.packages(c(\
     'boot', \
     'cOde', \
     'deSolve',\
+    'devtools', \
     'ddeSolve',\
     'GillespieSSA', \
     'git2r', \
@@ -187,6 +188,8 @@ RUN R -e "install.packages(c(\
     'rpgm', \
     'simecol', \
     'spatial'), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-14')"
+RUN R -e "devtools::install_github('IRkernel/IRkernel');IRkernel::installspec()"
+RUN pip install rpy2
 
 # Add Julia packages.
 # Install IJulia as jovyan and then move the kernelspec out
