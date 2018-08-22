@@ -89,7 +89,9 @@ WORKDIR $HOME
 RUN cd /tmp && \
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python3 get-pip.py && \
-    rm get-pip.py
+    rm get-pip.py && \
+    rm -rf /home/$NB_USER/.cache/pip && \
+    fix-permissions /home/$NB_USER
 
 # Install Tini
 RUN pip install tini \
