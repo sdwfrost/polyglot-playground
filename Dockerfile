@@ -57,7 +57,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
 
 
 RUN cd /tmp && \
-    curl -sL https://deb.nodesource.com/setup_10.x && \
+    curl -sL https://deb.nodesource.com/setup_10.x > setup_10.x && \
     bash setup_10.x && \
     apt-get install -yq --no-install-recommends \
     nodejs \
