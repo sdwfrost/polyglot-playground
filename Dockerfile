@@ -40,7 +40,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     nodejs \
     pandoc \
     pkg-config \
-    python-dev \
+    python3-dev \
     sbcl \
     software-properties-common \
     texlive-fonts-extra \
@@ -83,6 +83,12 @@ RUN groupadd wheel -g 11 && \
 
 EXPOSE 8888
 WORKDIR $HOME
+
+# Install pip
+RUN cd /tmp && \
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3 get-pip.py && \
+    rm get-pip.py
 
 # Install Tini
 RUN pip install tini \
