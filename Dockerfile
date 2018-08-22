@@ -38,7 +38,6 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     libzmqpp-dev \
     lmodern \
     netcat \
-    nodejs \
     pandoc \
     pkg-config \
     python3-dev \
@@ -53,6 +52,15 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     tzdata \
     unzip \
     zlib1g-dev \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
+RUN cd /tmp && \
+    curl -sL https://deb.nodesource.com/setup_10.x && \
+    bash setup_10.x && \
+    apt-get install -yq --no-install-recommends \
+    nodejs \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
