@@ -97,11 +97,11 @@ RUN cd /tmp && \
 RUN pip install tini \
     notebook \
     jupyterhub \
-    jupyterlab \
-    -c conda-forge && \
+    jupyterlab && \
     jupyter labextension install @jupyterlab/hub-extension && \
     npm cache clean --force && \
     jupyter notebook --generate-config && \
+    rm -rf /home/$NB_USER/.cache/pip && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions /home/$NB_USER
 
