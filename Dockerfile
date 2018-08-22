@@ -11,6 +11,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     wget \
     bzip2 \
     ca-certificates \
+    curl \
     sudo \
     locales \
     fonts-liberation \
