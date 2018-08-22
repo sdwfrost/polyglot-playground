@@ -23,6 +23,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     ginac-tools \
     git \
     gnuplot \
+    gnupg-agent \
     gzip \
     libboost-all-dev \
     libcln-dev \
