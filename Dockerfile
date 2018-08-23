@@ -323,11 +323,11 @@ RUN mkdir /opt/vfgen && \
     rm -rf vfgen && \
     ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
-RUN cd ${HOME} && \
-    npm install ijavascript && \
-    rsync ${HOME}/node_modules/ /usr/lib/node_modules/ && \
-    fix-permissions /usr/lib/node_modules && \
-    ijsinstall
+# RUN cd ${HOME} && \
+#    npm install ijavascript && \
+#    rsync ${HOME}/node_modules/ /usr/lib/node_modules/ && \
+#    fix-permissions /usr/lib/node_modules && \
+#    ijsinstall
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
