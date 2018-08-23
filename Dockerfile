@@ -56,12 +56,10 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN cd /tmp && \
-    curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get install -yq --no-install-recommends \
     nodejs \
     && apt-get clean && \
-    rm setup_10.x && \
     rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /bin/tar /bin/gtar
