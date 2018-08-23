@@ -42,6 +42,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     pandoc \
     pkg-config \
     python3-dev \
+    rsync \
     sbcl \
     software-properties-common \
     texlive-fonts-extra \
@@ -225,6 +226,7 @@ RUN pip install rpy2
 RUN julia -e 'Pkg.init()' && \
     julia -e 'Pkg.update()' && \
     julia -e 'Pkg.add("Gadfly")' && \
+    julia -e 'Pkg.add("GR")' && \
     julia -e 'Pkg.add("Plots")' && \
     julia -e 'Pkg.add("IJulia")' && \
     julia -e 'Pkg.add("DifferentialEquations")' && \
@@ -235,6 +237,7 @@ RUN julia -e 'Pkg.init()' && \
     julia -e 'Pkg.add("PlotlyJS")' && \
     # Precompile Julia packages \
     julia -e 'using Gadfly' && \
+    julia -e 'using GR' && \
     julia -e 'using Plots' && \
     julia -e 'using IJulia' && \
     julia -e 'using DifferentialEquations' && \
@@ -292,9 +295,9 @@ RUN mkdir /opt/xppaut && \
     tar xvf xpplinux.tgz -C /opt/xppaut --strip-components=1 && \
     cd /opt/xppaut && \
     chmod +x /opt/xppaut/xppaut && \
-    rm /tmp/xpplinux.tgz
-ENV PATH=${XPP_DIR}:$PATH
-RUN fix-permissions $XPP_DIR
+    ln -fs /opt/xppaut/xppaut /usr/local/bin/xppaut && \
+    rm /tmp/xpplinux.tgz && \
+    fix-permissions $XPP_DIR /usr/local/bin
 
 # VFGEN
 # First needs MiniXML
@@ -310,21 +313,21 @@ RUN cd /tmp && \
     rm mxml-2.11.tar.gz && \
     rm -rf /tmp/mxml
 
-# RUN mkdir /opt/vfgen && \
-#    cd /tmp && \
-#    git clone https://github.com/WarrenWeckesser/vfgen && \
-#    cd vfgen/src && \
-#    make -f Makefile.vfgen && \
-#    cp ./vfgen /opt/vfgen && \
-#    cd /tmp && \
-#    rm -rf vfgen && \
-#    ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
+RUN mkdir /opt/vfgen && \
+    cd /tmp && \
+    git clone https://github.com/WarrenWeckesser/vfgen && \
+    cd vfgen/src && \
+    make -f Makefile.vfgen && \
+    cp ./vfgen /opt/vfgen && \
+    cd /tmp && \
+    rm -rf vfgen && \
+    ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
-# ijs
-# RUN fix-permissions /usr/lib/node_modules && \
-#    npm install -g ijavascript && \
-#    fix-permissions ${HOME}/.npm && \
-#    ijsinstall
+RUN cd ${HOME} && \
+    npm install ijavascript && \
+    rsync ${HOME}/node_modules/ /usr/lib/node_modules/ && \
+    fix-permissions /usr/lib/node_modules && \
+    ijsinstall
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
