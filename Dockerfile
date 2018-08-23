@@ -309,11 +309,12 @@ RUN cd /tmp && \
 #    rm -rf vfgen && \
 #    ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
+# ijs
+RUN npm install -g ijavascript && \
+    ijsinstall
+
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 
-# ijs
-RUN npm install -g ijavascript && \
-    ijsinstall
