@@ -268,12 +268,12 @@ RUN mkdir /opt/scilab-${SCILAB_VERSION} && \
     pip install scilab_kernel
 
 # Octave
-RUN add-apt-repository ppa:octave/stable && \
-    apt-get update && \
-    apt-get install octave && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*    
-RUN pip install octave_kernel
+# RUN add-apt-repository ppa:octave/stable && \
+#    apt-get update && \
+#    apt-get install octave && \
+#    apt-get clean && \
+#    rm -rf /var/lib/apt/lists/*    
+# RUN pip install octave_kernel
 
 # XPP
 ENV XPP_DIR=/opt/xppaut
