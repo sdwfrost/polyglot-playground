@@ -125,7 +125,6 @@ RUN pip install \
     cython \
     papermill \
     nteract_on_jupyter \
-    pixiediust \
     numba  && \
     # Activate ipywidgets extension in the environment that runs the notebook server
     jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
