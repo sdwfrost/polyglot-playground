@@ -311,7 +311,8 @@ RUN cd /tmp && \
 #    ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
 # ijs
-RUN npm install -g ijavascript && \
+RUN fix-permissions /usr/lib/node_modules ${HOME}/.npm && \
+    npm install -g ijavascript && \
     ijsinstall
 
 # Make sure the contents of our repo are in ${HOME}
