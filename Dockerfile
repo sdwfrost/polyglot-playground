@@ -313,11 +313,11 @@ RUN cd /tmp && \
 # ijs
 RUN fix-permissions /usr/lib/node_modules && \
     npm install -g ijavascript && \
-    fix-permissions ${HOME}/.npm && \
-    ijsinstall
+    fix-permissions ${HOME}/.npm
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 
+RUN ijsinstall
