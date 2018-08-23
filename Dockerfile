@@ -240,7 +240,7 @@ RUN julia -e 'Pkg.init()' && \
 
 # Add gnuplot kernel - gnuplot 5.2.3 already installed above
 RUN pip install gnuplot_kernel && \
-    python -m gnuplot_kernel install
+    python3 -m gnuplot_kernel install
 
 # CFFI
 RUN pip install cffi_magic
