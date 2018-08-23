@@ -311,13 +311,12 @@ RUN cd /tmp && \
 #    ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
 # ijs
-RUN fix-permissions /usr/lib/node_modules && \
-    npm install -g ijavascript && \
-    fix-permissions ${HOME}/.npm
+# RUN fix-permissions /usr/lib/node_modules && \
+#    npm install -g ijavascript && \
+#    fix-permissions ${HOME}/.npm && \
+#    ijsinstall
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
-
-RUN ijsinstall
