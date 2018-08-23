@@ -233,10 +233,10 @@ RUN julia -e 'Pkg.init()' && \
     julia -e 'using PyCall' && \
     julia -e 'using PyPlot' && \
     # move kernelspec out of home \
-    mv $HOME/.local/share/jupyter/kernels/julia* $CONDA_DIR/share/jupyter/kernels/ && \
-    chmod -R go+rx $CONDA_DIR/share/jupyter && \
-    rm -rf $HOME/.local && \
-    fix-permissions $JULIA_PKGDIR $CONDA_DIR/share/jupyter
+    #mv $HOME/.local/share/jupyter/kernels/julia* /usr/local/share/jupyter/kernels/ && \
+    #chmod -R go+rx /usr/local/share/jupyter && \
+    #rm -rf $HOME/.local && \
+    fix-permissions $JULIA_PKGDIR # /usr/local/share/jupyter
 
 # Add gnuplot kernel - gnuplot 5.2.3 already installed above
 RUN pip install gnuplot_kernel && \
