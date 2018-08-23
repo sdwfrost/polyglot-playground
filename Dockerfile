@@ -100,7 +100,15 @@ RUN cd /tmp && \
     fix-permissions /home/$NB_USER
 
 # Install Tini
-RUN pip install tini \
+
+ENV TINI_VERSION v0.18.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/local/bin/tini
+RUN chmod +x /usr/local/bin/tini
+ENV PATH=/usr/local/bin:$PATH
+# Configure container startup
+ENTRYPOINT ["tini", "-g", "--"]
+
+RUN pip install \
     notebook \
     jupyterhub \
     jupyterlab && \
@@ -110,9 +118,6 @@ RUN pip install tini \
     rm -rf /home/$NB_USER/.cache/pip && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions /home/$NB_USER
-
-# Configure container startup
-ENTRYPOINT ["tini", "-g", "--"]
 
 RUN pip install \
     ipywidgets \
