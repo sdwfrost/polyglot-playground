@@ -267,10 +267,10 @@ RUN mkdir /opt/scilab-${SCILAB_VERSION} && \
     ln -fs /opt/scilab-${SCILAB_VERSION}/bin/scilab-cli /usr/local/bin/scilab-cli && \
     pip install scilab_kernel
 
-RUN apt-get update && apt-get -yq dist-upgrade\
-    && apt-get install -yq --no-install-recommends \
+RUN apt-get update && apt-get -yq dist-upgrade && \
+    apt-get install -yq --no-install-recommends \
     octave && \
-    && apt-get clean && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*    
 RUN pip install octave_kernel
 
