@@ -210,7 +210,12 @@ RUN R -e "install.packages(c(\
     'rpgm', \
     'simecol', \
     'spatial'), dependencies=TRUE, clean=TRUE, repos='https://cran.microsoft.com/snapshot/2018-08-14')"
-RUN R -e "devtools::install_github('IRkernel/IRkernel');IRkernel::installspec()"
+RUN R -e "devtools::install_github('IRkernel/IRkernel')" && \
+    R -e "IRkernel::installspec()" && \
+    mv $HOME/.local/share/jupyter/kernels/ir* /usr/local/share/jupyter/kernels/ && \
+    chmod -R go+rx /usr/local/share/jupyter && \
+    rm -rf $HOME/.local && \
+    fix-permissions /usr/local/share/jupyter
 RUN pip install rpy2
 
 # Add Julia packages.
