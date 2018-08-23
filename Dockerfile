@@ -173,7 +173,10 @@ RUN ln -fs /opt/julia-*/bin/julia /usr/local/bin/julia
 
 RUN add-apt-repository ppa:marutter/rrutter && \
     apt-get update && \
-    apt-get install -yq r-base r-base-dev && \
+    apt-get install -yq
+    libssl-dev \
+    libcurl4-gnutls-dev \
+    r-base r-base-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
