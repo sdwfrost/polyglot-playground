@@ -31,11 +31,14 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     libginac-dev \
     libginac6 \
     libgit2-dev \
+    libgl1-mesa-glx \
     libgs-dev \
     libjsoncpp-dev \
+    libqt5widgets5 \
     libsm6 \
     libxext-dev \
     libxrender1 \
+    libxt6 \
     libzmqpp-dev \
     lmodern \
     netcat \
@@ -121,6 +124,7 @@ RUN pip install \
     fix-permissions /home/$NB_USER
 
 RUN pip install \
+    gr \
     ipywidgets \
     pandas \
     numexpr \
@@ -218,6 +222,7 @@ RUN R -e "devtools::install_github('IRkernel/IRkernel')" && \
     rm -rf $HOME/.local && \
     fix-permissions /usr/local/share/jupyter
 RUN pip install rpy2
+RUN R -e "devtools::install_github('mrc-ide/odin',upgrade=FALSE)"
 
 # Add Julia packages.
 # Install IJulia as jovyan and then move the kernelspec out
@@ -258,6 +263,13 @@ RUN pip install gnuplot_kernel && \
 # CFFI
 RUN pip install cffi_magic
 
+# GR
+RUN cd /tmp && \
+    wget https://gr-framework.org/downloads/gr-latest-Ubuntu-x86_64.tar.gz && \
+    tar xvf gr-latest-Ubuntu-x86_64.tar.gz -C /usr/local --strip-components=1 && \
+    rm gr-latest-Ubuntu-x86_64.tar.gz && \
+    fix-permissions /usr/local
+
 # Nim
 ENV NIMBLE_DIR=/opt/nimble
 RUN curl https://nim-lang.org/choosenim/init.sh -sSf > choosenim.sh && \
@@ -291,12 +303,12 @@ RUN pip install octave_kernel
 ENV XPP_DIR=/opt/xppaut
 RUN mkdir /opt/xppaut && \
     cd /tmp && \
-    wget http://www.math.pitt.edu/~bard/bardware/binary/latest/xpplinux.tgz && \
-    tar xvf xpplinux.tgz -C /opt/xppaut --strip-components=1 && \
+    wget http://www.math.pitt.edu/~bard/bardware/xppaut_latest.tar.gz && \
+    tar xvf xppaut_latest.tar.gz -C /opt/xppaut --strip-components=1 && \
     cd /opt/xppaut && \
-    chmod +x /opt/xppaut/xppaut && \
+    make && \
     ln -fs /opt/xppaut/xppaut /usr/local/bin/xppaut && \
-    rm /tmp/xpplinux.tgz && \
+    rm /tmpxppaut_latest.tar.gz && \
     fix-permissions $XPP_DIR /usr/local/bin
 
 # VFGEN
@@ -312,6 +324,7 @@ RUN cd /tmp && \
     cd /tmp && \
     rm mxml-2.11.tar.gz && \
     rm -rf /tmp/mxml
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 RUN mkdir /opt/vfgen && \
     cd /tmp && \
