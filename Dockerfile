@@ -347,6 +347,14 @@ RUN cd /tmp && \
     cd /tmp && \
     rm -rf libzmq
 
+RUN cd /tmp && \
+    git clone https://github.com/zeromq/cppzmq && \
+    cd cppzmq && \
+    cmake -D CMAKE_BUILD_TYPE=Release && \
+    make install && \
+    cd /tmp && \
+    rm -rf cppzmq
+
 # RUN cd ${HOME} && \
 #    npm install ijavascript && \
 #    rsync ${HOME}/node_modules/ /usr/lib/node_modules/ && \
