@@ -352,10 +352,10 @@ RUN cd /tmp && \
     mkdir build && \
     mkdir /opt/cling && \
     cd build && \
-    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_BUILD_TYPE=Release ..\src && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_BUILD_TYPE=Release ../src && \
     cmake --build . && \
     cmake --build . --target install && \
-    cd tmp && \
+    cd /tmp && \
     rm -rf cling && \
     fix-permissions /opt/cling
 ENV PATH=/opt/cling/bin:$PATH
