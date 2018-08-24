@@ -304,11 +304,11 @@ ENV XPP_DIR=/opt/xppaut
 RUN mkdir /opt/xppaut && \
     cd /tmp && \
     wget http://www.math.pitt.edu/~bard/bardware/xppaut_latest.tar.gz && \
-    tar xvf xppaut_latest.tar.gz -C /opt/xppaut --strip-components=1 && \
+    tar xvf xppaut_latest.tar.gz -C /opt/xppaut && \
     cd /opt/xppaut && \
     make && \
     ln -fs /opt/xppaut/xppaut /usr/local/bin/xppaut && \
-    rm /tmpxppaut_latest.tar.gz && \
+    rm /tmp/xppaut_latest.tar.gz && \
     fix-permissions $XPP_DIR /usr/local/bin
 
 # VFGEN
