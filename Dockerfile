@@ -337,6 +337,30 @@ RUN mkdir /opt/vfgen && \
     rm -rf vfgen && \
     ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
+RUN cd /tmp && \
+    mkdir cling && \
+    cd cling && \
+    git clone http://root.cern.ch/git/llvm.git src && \
+    cd src && \
+    git checkout cling-patches && \
+    cd tools && \
+    git clone http://root.cern.ch/git/cling.git && \
+    git clone http://root.cern.ch/git/clang.git && \
+    cd clang && \
+    git checkout cling-patches && \
+    cd ../.. && \
+    mkdir build && \
+    mkdir /opt/cling && \
+    cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_BUILD_TYPE=Release ..\src && \
+    cmake --build . && \
+    cmake --build . --target install && \
+    cd tmp && \
+    rm -rf cling && \
+    fix-permissions /opt/cling
+ENV PATH=/opt/cling/bin:$PATH
+ENV LD_LIBRARY_PATH=/opt/cling/lib:LD_LIBRARY_PATH
+
 # Xeus
 RUN cd /tmp && \
     git clone https://github.com/zeromq/libzmq && \
@@ -381,12 +405,23 @@ RUN cd /tmp && \
     rm -rf xtl
 
 RUN cd /tmp && \
-    git clone https://github.com/QuantStack/xtl && \
-    cd xtl && \
-    cmake -D CMAKE_BUILD_TYPE && \
+    git clone https://github.com/QuantStack/xeus && \
+    cd xeus && \
+    cmake -D BUILD_EXAMPLES=ON -D CMAKE_BUILD_TYPE=Release && \
+    make && \
     make install && \
     cd /tmp && \
-    rm -rf xtl
+    rm -rf xeus
+
+RUN cd /tmp && \
+    git clone https://github.com/QuantStack/xeus-cling && \
+    cd xeus-cling && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib && \
+    make && \
+    make install && \
+    cd /tmp && \
+    rm -rf xeus-cling && \
+    fix-permissions /opt/cling
 
 # RUN cd ${HOME} && \
 #    npm install ijavascript && \
