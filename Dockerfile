@@ -365,7 +365,7 @@ RUN mkdir /opt/vfgen && \
 RUN cd /tmp && \
     git clone https://github.com/zeromq/libzmq && \
     cd libzmq && \
-    cmake -D WITH_PERF_TOOL=OFF -D ZMQ_BUILD_TESTS=OFF -D ENABLE_CPACK=OFF -D CMAKE_BUILD_TYPE=Release && \
+    cmake -DWITH_PERF_TOOL=OFF -DZMQ_BUILD_TESTS=OFF -DENABLE_CPACK=OFF -DCMAKE_BUILD_TYPE=Release && \
     make && \
     make install && \
     cd /tmp && \
