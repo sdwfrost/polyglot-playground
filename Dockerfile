@@ -355,6 +355,39 @@ RUN cd /tmp && \
     cd /tmp && \
     rm -rf cppzmq
 
+RUN cd /tmp && \
+    git clone https://github.com/weidai11/cryptopp && \
+    cd cryptopp && \
+    cmake -D BUILD_SHARED=OFF -D BUILD_TESTING=OFF -D CMAKE_BUILD_TYPE=Release && \
+    make && \
+    make install && \
+    cd /tmp && \
+    rm -rf cryptopp
+
+RUN cd /tmp && \
+    git clone https://github.com/nlohmann/json && \
+    cd json && \
+    cmake && \
+    make install && \
+    cd /tmp && \
+    rm -rf json
+
+RUN cd /tmp && \
+    git clone https://github.com/QuantStack/xtl && \
+    cd xtl && \
+    cmake -D CMAKE_BUILD_TYPE && \
+    make install && \
+    cd /tmp && \
+    rm -rf xtl
+
+RUN cd /tmp && \
+    git clone https://github.com/QuantStack/xtl && \
+    cd xtl && \
+    cmake -D CMAKE_BUILD_TYPE && \
+    make install && \
+    cd /tmp && \
+    rm -rf xtl
+
 # RUN cd ${HOME} && \
 #    npm install ijavascript && \
 #    rsync ${HOME}/node_modules/ /usr/lib/node_modules/ && \
