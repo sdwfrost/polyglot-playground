@@ -11,6 +11,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     wget \
     bzip2 \
     ca-certificates \
+    cmake \
     curl \
     sudo \
     locales \
@@ -335,6 +336,16 @@ RUN mkdir /opt/vfgen && \
     cd /tmp && \
     rm -rf vfgen && \
     ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
+
+# Xeus
+RUN cd /tmp && \
+    git clone https://github.com/zeromq/libzmq && \
+    cd libzmq && \
+    cmake -D WITH_PERF_TOOL=OFF -D ZMQ_BUILD_TESTS=OFF -D ENABLE_CPACK=OFF -D CMAKE_BUILD_TYPE=Release && \
+    make && \
+    make install && \
+    cd /tmp && \
+    rm -rf libzmq
 
 # RUN cd ${HOME} && \
 #    npm install ijavascript && \
