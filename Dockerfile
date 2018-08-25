@@ -9,6 +9,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get -yq dist-upgrade\
     && apt-get install -yq --no-install-recommends \
     wget \
+    ant \
     bzip2 \
     ca-certificates \
     cmake \
@@ -17,6 +18,8 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     locales \
     fonts-liberation \
     build-essential \
+    default-jdk \
+    default-jre \
     fonts-dejavu \
     gcc \
     gfortran \
@@ -48,6 +51,8 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     python3-dev \
     rsync \
     sbcl \
+    snapd \
+    snapd-xdg-open \
     software-properties-common \
     texlive-fonts-extra \
     texlive-fonts-recommended \
@@ -64,6 +69,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get install -yq --no-install-recommends \
     nodejs \
+    nodejs-legacy \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -337,103 +343,14 @@ RUN mkdir /opt/vfgen && \
     rm -rf vfgen && \
     ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
-RUN cd /tmp && \
-    mkdir cling && \
-    cd cling && \
-    git clone http://root.cern.ch/git/llvm.git src && \
-    cd src && \
-    git checkout cling-patches && \
-    cd tools && \
-    git clone http://root.cern.ch/git/cling.git && \
-    git clone http://root.cern.ch/git/clang.git && \
-    cd clang && \
-    git checkout cling-patches && \
-    cd ../.. && \
-    mkdir build && \
-    mkdir /opt/cling && \
-    cd build && \
-    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_BUILD_TYPE=Release .. && \
-    cmake --build . && \
-    cmake --build . --target install && \
+# JVM languages
+RUN snap install kotlin
+RUN apt-get remove scala-library scala && \
     cd /tmp && \
-    rm -rf cling && \
-    fix-permissions /opt/cling
-ENV PATH=/opt/cling/bin:$PATH
-ENV LD_LIBRARY_PATH=/opt/cling/lib:LD_LIBRARY_PATH
-
-# Xeus
-RUN cd /tmp && \
-    git clone https://github.com/zeromq/libzmq && \
-    cd libzmq && \
-    mkdir build && \
-    cd build && \
-    cmake -DWITH_PERF_TOOL=OFF -DZMQ_BUILD_TESTS=OFF -DENABLE_CPACK=OFF -DCMAKE_BUILD_TYPE=Release && .. \
-    make && \
-    make install && \
-    cd /tmp && \
-    rm -rf libzmq
-
-RUN cd /tmp && \
-    git clone https://github.com/zeromq/cppzmq && \
-    cd cppzmq && \
-    mkdir build && \
-    cd build && \
-    cmake -D CMAKE_BUILD_TYPE=Release .. && \
-    make install && \
-    cd /tmp && \
-    rm -rf cppzmq
-
-RUN cd /tmp && \
-    git clone https://github.com/weidai11/cryptopp && \
-    cd cryptopp && \
-    mkdir build && \
-    cd build && \
-    cmake -D BUILD_SHARED=OFF -D BUILD_TESTING=OFF -D CMAKE_BUILD_TYPE=Release .. && \
-    make && \
-    make install && \
-    cd /tmp && \
-    rm -rf cryptopp
-
-RUN cd /tmp && \
-    git clone https://github.com/nlohmann/json && \
-    cd json && \
-    cmake && \
-    make install && \
-    cd /tmp && \
-    rm -rf json
-
-RUN cd /tmp && \
-    git clone https://github.com/QuantStack/xtl && \
-    cd xtl && \
-    mkdir build && \
-    cd build && \
-    cmake -D CMAKE_BUILD_TYPE .. && \
-    make install && \
-    cd /tmp && \
-    rm -rf xtl
-
-RUN cd /tmp && \
-    git clone https://github.com/QuantStack/xeus && \
-    cd xeus && \
-    mkdir build && \
-    cd build && \
-    cmake -D BUILD_EXAMPLES=ON -D CMAKE_BUILD_TYPE=Release .. && \
-    make && \
-    make install && \
-    cd /tmp && \
-    rm -rf xeus
-
-RUN cd /tmp && \
-    git clone https://github.com/QuantStack/xeus-cling && \
-    cd xeus-cling && \
-    mkdir build && \
-    cd build && \
-    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib .. && \
-    make && \
-    make install && \
-    cd /tmp && \
-    rm -rf xeus-cling && \
-    fix-permissions /opt/cling
+    wget www.scala-lang.org/files/archive/scala-2.11.8.deb && \
+    dpkg -i -yq scala-2.11.8.deb && \
+    rm  scala-2.11.8.deb
+RUN pip install beakerx
 
 # RUN cd ${HOME} && \
 #    npm install ijavascript && \
