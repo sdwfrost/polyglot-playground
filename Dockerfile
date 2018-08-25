@@ -352,13 +352,13 @@ RUN cd /tmp && \
     rm scala-2.11.8.deb
 RUN pip install beakerx
 
+# Make sure the contents of our repo are in ${HOME}
+COPY . ${HOME}
+RUN chown -R ${NB_UID} ${HOME}
+USER ${NB_USER}
+
 RUN echo 'prefix=${HOME}/.npm' >> ${HOME}/.npmrc 
 ENV PATH=${HOME}/.npm/bin:$PATH
 RUN cd ${HOME} && \
     npm install -g ijavascript && \
     ijsinstall
-
-# Make sure the contents of our repo are in ${HOME}
-COPY . ${HOME}
-RUN chown -R ${NB_UID} ${HOME}
-USER ${NB_USER}
