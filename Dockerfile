@@ -348,15 +348,15 @@ RUN mkdir /opt/vfgen && \
 #    fix-permissions /snap
 RUN cd /tmp && \
     wget www.scala-lang.org/files/archive/scala-2.11.8.deb && \
-    dpkg -i -yq scala-2.11.8.deb && \
+    dpkg -i scala-2.11.8.deb && \
     rm scala-2.11.8.deb
 RUN pip install beakerx
 
-# RUN cd ${HOME} && \
-#    npm install ijavascript && \
-#    rsync ${HOME}/node_modules/ /usr/lib/node_modules/ && \
-#    fix-permissions /usr/lib/node_modules && \
-#    ijsinstall
+RUN echo 'prefix=${HOME}/.npm' >> ${HOME}/.npmrc 
+ENV PATH=${HOME}/.npm/bin:$PATH
+RUN cd ${HOME} && \
+    npm install -g ijavascript && \
+    ijsinstall
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
