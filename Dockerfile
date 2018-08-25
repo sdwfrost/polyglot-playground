@@ -346,11 +346,10 @@ RUN mkdir /opt/vfgen && \
 # JVM languages
 # RUN snap install --classic kotlin && \
 #    fix-permissions /snap
-RUN apt-get remove scala-library scala && \
-    cd /tmp && \
+RUN cd /tmp && \
     wget www.scala-lang.org/files/archive/scala-2.11.8.deb && \
     dpkg -i -yq scala-2.11.8.deb && \
-    rm  scala-2.11.8.deb
+    rm scala-2.11.8.deb
 RUN pip install beakerx
 
 # RUN cd ${HOME} && \
