@@ -344,8 +344,8 @@ RUN mkdir /opt/vfgen && \
     ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
 # JVM languages
-RUN snap install --classic kotlin && \
-    fix-permissions /snap
+# RUN snap install --classic kotlin && \
+#    fix-permissions /snap
 RUN apt-get remove scala-library scala && \
     cd /tmp && \
     wget www.scala-lang.org/files/archive/scala-2.11.8.deb && \
