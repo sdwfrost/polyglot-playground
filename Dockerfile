@@ -337,35 +337,37 @@ RUN mkdir /opt/vfgen && \
     rm -rf vfgen && \
     ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
-#RUN cd /tmp && \
-#    mkdir cling && \
-#    cd cling && \
-#    git clone http://root.cern.ch/git/llvm.git src && \
-#    cd src && \
-#    git checkout cling-patches && \
-#    cd tools && \
-#    git clone http://root.cern.ch/git/cling.git && \
-#    git clone http://root.cern.ch/git/clang.git && \
-#    cd clang && \
-#    git checkout cling-patches && \
-#    cd ../.. && \
-#    mkdir build && \
-#    mkdir /opt/cling && \
-#    cd build && \
-#    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_BUILD_TYPE=Release ../src && \
-#    cmake --build . && \
-#    cmake --build . --target install && \
-#    cd /tmp && \
-#    rm -rf cling && \
-#    fix-permissions /opt/cling
-#ENV PATH=/opt/cling/bin:$PATH
-#ENV LD_LIBRARY_PATH=/opt/cling/lib:LD_LIBRARY_PATH
+RUN cd /tmp && \
+    mkdir cling && \
+    cd cling && \
+    git clone http://root.cern.ch/git/llvm.git src && \
+    cd src && \
+    git checkout cling-patches && \
+    cd tools && \
+    git clone http://root.cern.ch/git/cling.git && \
+    git clone http://root.cern.ch/git/clang.git && \
+    cd clang && \
+    git checkout cling-patches && \
+    cd ../.. && \
+    mkdir build && \
+    mkdir /opt/cling && \
+    cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_BUILD_TYPE=Release .. && \
+    cmake --build . && \
+    cmake --build . --target install && \
+    cd /tmp && \
+    rm -rf cling && \
+    fix-permissions /opt/cling
+ENV PATH=/opt/cling/bin:$PATH
+ENV LD_LIBRARY_PATH=/opt/cling/lib:LD_LIBRARY_PATH
 
 # Xeus
 RUN cd /tmp && \
     git clone https://github.com/zeromq/libzmq && \
     cd libzmq && \
-    cmake -DWITH_PERF_TOOL=OFF -DZMQ_BUILD_TESTS=OFF -DENABLE_CPACK=OFF -DCMAKE_BUILD_TYPE=Release && \
+    mkdir build && \
+    cd build && \
+    cmake -DWITH_PERF_TOOL=OFF -DZMQ_BUILD_TESTS=OFF -DENABLE_CPACK=OFF -DCMAKE_BUILD_TYPE=Release && .. \
     make && \
     make install && \
     cd /tmp && \
@@ -374,7 +376,9 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     git clone https://github.com/zeromq/cppzmq && \
     cd cppzmq && \
-    cmake -D CMAKE_BUILD_TYPE=Release && \
+    mkdir build && \
+    cd build && \
+    cmake -D CMAKE_BUILD_TYPE=Release .. && \
     make install && \
     cd /tmp && \
     rm -rf cppzmq
@@ -382,7 +386,9 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     git clone https://github.com/weidai11/cryptopp && \
     cd cryptopp && \
-    cmake -D BUILD_SHARED=OFF -D BUILD_TESTING=OFF -D CMAKE_BUILD_TYPE=Release && \
+    mkdir build && \
+    cd build && \
+    cmake -D BUILD_SHARED=OFF -D BUILD_TESTING=OFF -D CMAKE_BUILD_TYPE=Release .. && \
     make && \
     make install && \
     cd /tmp && \
@@ -399,7 +405,9 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     git clone https://github.com/QuantStack/xtl && \
     cd xtl && \
-    cmake -D CMAKE_BUILD_TYPE && \
+    mkdir build && \
+    cd build && \
+    cmake -D CMAKE_BUILD_TYPE .. && \
     make install && \
     cd /tmp && \
     rm -rf xtl
@@ -407,7 +415,9 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     git clone https://github.com/QuantStack/xeus && \
     cd xeus && \
-    cmake -D BUILD_EXAMPLES=ON -D CMAKE_BUILD_TYPE=Release && \
+    mkdir build && \
+    cd build && \
+    cmake -D BUILD_EXAMPLES=ON -D CMAKE_BUILD_TYPE=Release .. && \
     make && \
     make install && \
     cd /tmp && \
@@ -416,7 +426,9 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     git clone https://github.com/QuantStack/xeus-cling && \
     cd xeus-cling && \
-    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib && \
+    mkdir build && \
+    cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib .. && \
     make && \
     make install && \
     cd /tmp && \
