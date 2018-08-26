@@ -370,7 +370,7 @@ RUN apt-get update && \
     # ./cpt.py --create-dev-env Release --with-workdir=/opt/cling && \
     # cd /tmp && \
     # rm -rf cling && \
-    fix-permissions ${HOME} /opt/cling && \
+    fix-permissions ${HOME} && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
