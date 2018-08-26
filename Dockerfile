@@ -346,6 +346,13 @@ RUN mkdir /opt/vfgen && \
 # JVM languages
 # RUN snap install --classic kotlin && \
 #    fix-permissions /snap
+RUN cd /opt && \
+    wget https://github.com/JetBrains/kotlin/releases/download/v1.2.61/kotlin-compiler-1.2.61.zip && \
+    unzip kotlin-compiler-1.2.61.zip && \
+    rm kotlin-compiler-1.2.61.zip && \
+    fix-permissions /opt/kotlinc
+ENV PATH=/opt/kotlinc/bin:$PATH
+
 RUN cd /tmp && \
     wget www.scala-lang.org/files/archive/scala-2.11.8.deb && \
     dpkg -i scala-2.11.8.deb && \
