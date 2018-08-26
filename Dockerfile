@@ -341,15 +341,27 @@ RUN mkdir /opt/vfgen && \
     ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
 # Maxima
-RUN mkdir /opt/maxima && \
-    cd /tmp && \
+RUN mkdir cd /tmp && \
     git clone https://github.com/andrejv/maxima && \
     cd maxima && \
+    sh bootstrap && \
     ./configure --enable-sbcl && \
     make && \
     make install && \
     cd /tmp && \
     rm -rf maxima
+RUN mkdir /opt/quicklisp && \
+    cd /tmp && \
+    curl -O https://beta.quicklisp.org/quicklisp.lisp && \
+    sbcl --load quicklisp.lisp --non-interactive --eval '(quicklisp-quickstart:install :path "/opt/quicklisp/")' && \
+    sbcl --load /opt/quicklisp/setup.lisp --non-interactive --eval '(ql:add-to-init-file)' && \
+    rm quicklisp.lisp
+RUN cd /tmp && \
+    git clone https://github.com/robert-dodier/maxima-jupyter && \
+    cd maxima-jupyter && \
+    mkdir /opt/maxima-jupyter && \
+    cp src/*.lisp /opt/maxima-jupyter && \
+    python3 ./install-maxima-jupyter.py --root=/opt/maxima-jupyter
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
