@@ -360,7 +360,7 @@ RUN cd /tmp && \
 RUN pip install beakerx && \
     beakerx install
 
-RUN apt-get update && apt-get -yq dist-upgrade && \
+RUN apt-get update && \
     apt-get install -yq --no-install-recommends \
     debhelper devscripts gnupg pbuilder ubuntu-dev-tools apt-file python && \
     cd /tmp && \
@@ -370,7 +370,9 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     ./cpt.py --create-dev-env Release --with-workdir=/opt/cling && \
     cd /tmp && \
     rm -rf cling && \
-    fix-permissions /opt/cling
+    fix-permissions /opt/cling && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
