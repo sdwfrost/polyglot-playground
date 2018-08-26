@@ -357,11 +357,9 @@ RUN mkdir /opt/quicklisp && \
     yes '' | sbcl --load /opt/quicklisp/setup.lisp --non-interactive --eval '(ql:add-to-init-file)' && \
     rm quicklisp.lisp && \
     fix-permissions /opt/quicklisp
-RUN cd /tmp && \
+RUN cd /opt && \
     git clone https://github.com/robert-dodier/maxima-jupyter && \
     cd maxima-jupyter && \
-    mkdir /opt/maxima-jupyter && \
-    cp src/*.lisp /opt/maxima-jupyter && \
     python3 ./install-maxima-jupyter.py --root=/opt/maxima-jupyter && \
     fix-permissions /opt/maxima-jupyter /usr/local/share/jupyter/kernels
 
