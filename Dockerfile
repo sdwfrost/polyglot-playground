@@ -51,8 +51,6 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     python3-dev \
     rsync \
     sbcl \
-    snapd \
-    snapd-xdg-open \
     software-properties-common \
     texlive-fonts-extra \
     texlive-fonts-recommended \
@@ -180,9 +178,8 @@ RUN mkdir /opt/julia-${JULIA_VERSION} && \
     rm /tmp/julia-${JULIA_VERSION}-linux-x86_64.tar.gz
 RUN ln -fs /opt/julia-*/bin/julia /usr/local/bin/julia
 
-# Show Julia where conda libraries are \
- RUN mkdir /etc/julia && \
-#    echo "push!(Libdl.DL_LOAD_PATH, \"$CONDA_DIR/lib\")" >> /etc/julia/juliarc.jl && \
+# Show Julia where libraries are \
+RUN mkdir /etc/julia && \
     # Create JULIA_PKGDIR \
     mkdir $JULIA_PKGDIR && \
     chown $NB_USER $JULIA_PKGDIR && \
@@ -343,55 +340,16 @@ RUN mkdir /opt/vfgen && \
     rm -rf vfgen && \
     ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
-# JVM languages
-# RUN snap install --classic kotlin && \
-#    fix-permissions /snap
-RUN cd /opt && \
-    wget https://github.com/JetBrains/kotlin/releases/download/v1.2.61/kotlin-compiler-1.2.61.zip && \
-    unzip kotlin-compiler-1.2.61.zip && \
-    rm kotlin-compiler-1.2.61.zip && \
-    fix-permissions /opt/kotlinc
-ENV PATH=/opt/kotlinc/bin:$PATH
-
-RUN cd /tmp && \
-    wget www.scala-lang.org/files/archive/scala-2.11.8.deb && \
-    dpkg -i scala-2.11.8.deb && \
-    rm scala-2.11.8.deb
-RUN pip install beakerx && \
-    beakerx install
-
-# Conda
-ENV CONDA_DIR=/opt/conda
-ENV PATH=$CONDA_DIR/bin:$PATH
-RUN mkdir -p $CONDA_DIR && \
-    chown $NB_USER:$NB_GID $CONDA_DIR && \
-    fix-permissions $CONDA_DIR
-# Install conda as jovyan and check the md5 sum provided on the download site
-ENV MINICONDA_VERSION 4.5.4
-RUN cd /tmp && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
-    echo "a946ea1d0c4a642ddf0c3a26a18bb16d *Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh" | md5sum -c - && \
-    /bin/bash Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
-    rm Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
-    $CONDA_DIR/bin/conda config --system --prepend channels conda-forge && \
-    $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
-    $CONDA_DIR/bin/conda config --system --set show_channel_urls true && \
-    $CONDA_DIR/bin/conda install --quiet --yes conda="${MINICONDA_VERSION%.*}.*" && \
-    $CONDA_DIR/bin/conda update --all --quiet --yes && \
-    conda clean -tipsy && \
-    rm -rf /home/$NB_USER/.cache/yarn && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
-RUN conda install --quiet --yes \
-    xeus-cling \
-    xtensor \
-    xtensor-blas \
-    xplot \
-    xwidgets \
-    -c QuantStack && \
-    conda clean -tipsy && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER
+# Maxima
+RUN mkdir /opt/maxima && \
+    cd /tmp && \
+    git clone https://github.com/andrejv/maxima && \
+    cd maxima && \
+    ./configure --enable-sbcl && \
+    make && \
+    make install && \
+    cd /tmp && \
+    rm -rf maxima
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
