@@ -360,19 +360,38 @@ RUN cd /tmp && \
 RUN pip install beakerx && \
     beakerx install
 
-RUN apt-get update && \
-    apt-get install -yq --no-install-recommends \
-    debhelper devscripts gnupg pbuilder ubuntu-dev-tools apt-file python clang-6.0 && \
-    cd ${HOME} && \
-    git clone https://github.com/root-project/cling && \
-    cd cling/tools/packaging && \
-    chmod +x cpt.py && \
-    # ./cpt.py --create-dev-env Release --with-workdir=/opt/cling && \
-    # cd /tmp && \
-    # rm -rf cling && \
-    fix-permissions ${HOME} && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Conda
+ENV CONDA_DIR=/opt/conda
+ENV PATH=$CONDA_DIR/bin:$PATH
+RUN mkdir -p $CONDA_DIR && \
+    chown $NB_USER:$NB_GID $CONDA_DIR && \
+    fix-permissions $CONDA_DIR
+# Install conda as jovyan and check the md5 sum provided on the download site
+ENV MINICONDA_VERSION 4.5.4
+RUN cd /tmp && \
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
+    echo "a946ea1d0c4a642ddf0c3a26a18bb16d *Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh" | md5sum -c - && \
+    /bin/bash Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
+    $CONDA_DIR/bin/conda config --system --prepend channels conda-forge && \
+    $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
+    $CONDA_DIR/bin/conda config --system --set show_channel_urls true && \
+    $CONDA_DIR/bin/conda install --quiet --yes conda="${MINICONDA_VERSION%.*}.*" && \
+    $CONDA_DIR/bin/conda update --all --quiet --yes && \
+    conda clean -tipsy && \
+    rm -rf /home/$NB_USER/.cache/yarn && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+RUN conda install --quiet --yes \
+    xeus-cling \
+    xtensor \
+    xtensor-blas \
+    xplot \
+    xwidgets \
+    -c QuantStack && \
+    conda clean -tipsy && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
