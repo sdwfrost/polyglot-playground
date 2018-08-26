@@ -362,3 +362,4 @@ ENV PATH=${HOME}/.npm/bin:$PATH
 RUN cd ${HOME} && \
     npm install -g ijavascript && \
     ijsinstall
+RUN npm install -g plotly-notebook-js
