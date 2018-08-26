@@ -360,6 +360,16 @@ RUN cd /tmp && \
 RUN pip install beakerx && \
     beakerx install
 
+RUN apt-get install -yq --no-install-recommends \
+    debhelper devscripts gnupg python && \
+    cd /tmp && \
+    git clone https://github.com/root-project/cling && \
+    cd cling/tools/packaging && \
+    chmod +x cpt.py && \
+    ./cpt.py --create-dev-env Release --with-workdir=/opt/cling &&
+    cd /tmp && \
+    rm -rf cling
+
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
