@@ -355,13 +355,15 @@ RUN mkdir /opt/quicklisp && \
     curl -O https://beta.quicklisp.org/quicklisp.lisp && \
     sbcl --load quicklisp.lisp --non-interactive --eval '(quicklisp-quickstart:install :path "/opt/quicklisp/")' && \
     sbcl --load /opt/quicklisp/setup.lisp --non-interactive --eval '(ql:add-to-init-file)' && \
-    rm quicklisp.lisp
+    rm quicklisp.lisp && \
+    fix-permissions /opt/quicklisp
 RUN cd /tmp && \
     git clone https://github.com/robert-dodier/maxima-jupyter && \
     cd maxima-jupyter && \
     mkdir /opt/maxima-jupyter && \
     cp src/*.lisp /opt/maxima-jupyter && \
-    python3 ./install-maxima-jupyter.py --root=/opt/maxima-jupyter
+    python3 ./install-maxima-jupyter.py --root=/opt/maxima-jupyter && \
+    fix-permissions /opt/maxima-jupyter
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
