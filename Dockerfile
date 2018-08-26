@@ -362,7 +362,7 @@ RUN pip install beakerx && \
 
 RUN apt-get update && \
     apt-get install -yq --no-install-recommends \
-    debhelper devscripts gnupg pbuilder ubuntu-dev-tools apt-file python && \
+    debhelper devscripts gnupg pbuilder ubuntu-dev-tools apt-file python clang-6.0 && \
     cd ${HOME} && \
     git clone https://github.com/root-project/cling && \
     cd cling/tools/packaging && \
