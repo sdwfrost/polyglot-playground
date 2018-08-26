@@ -360,8 +360,9 @@ RUN cd /tmp && \
 RUN pip install beakerx && \
     beakerx install
 
-RUN apt-get install -yq --no-install-recommends \
-    debhelper devscripts gnupg python && \
+RUN apt-get update && apt-get -yq dist-upgrade && \
+    apt-get install -yq --no-install-recommends \
+    debhelper devscripts gnupg pbuilder ubuntu-dev-tools apt-file python && \
     cd /tmp && \
     git clone https://github.com/root-project/cling && \
     cd cling/tools/packaging && \
