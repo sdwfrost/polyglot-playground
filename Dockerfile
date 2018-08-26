@@ -350,7 +350,8 @@ RUN cd /tmp && \
     wget www.scala-lang.org/files/archive/scala-2.11.8.deb && \
     dpkg -i scala-2.11.8.deb && \
     rm scala-2.11.8.deb
-RUN pip install beakerx
+RUN pip install beakerx && \
+    beakerx install
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
@@ -362,4 +363,4 @@ ENV PATH=${HOME}/.npm/bin:$PATH
 RUN cd ${HOME} && \
     npm install -g ijavascript && \
     ijsinstall
-RUN npm install -g plotly-notebook-js
+RUN npm install -g plotly-notebook-js ode-rk4 lib-r-math.js
