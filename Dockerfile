@@ -366,9 +366,10 @@ RUN apt-get install -yq --no-install-recommends \
     git clone https://github.com/root-project/cling && \
     cd cling/tools/packaging && \
     chmod +x cpt.py && \
-    ./cpt.py --create-dev-env Release --with-workdir=/opt/cling &&
+    ./cpt.py --create-dev-env Release --with-workdir=/opt/cling && \
     cd /tmp && \
-    rm -rf cling
+    rm -rf cling && \
+    fix-permissions /opt/cling
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
