@@ -341,7 +341,7 @@ RUN mkdir /opt/vfgen && \
     ln -fs /opt/vfgen/vfgen /usr/local/bin/vfgen
 
 # Maxima
-RUN mkdir cd /tmp && \
+RUN cd /tmp && \
     git clone https://github.com/andrejv/maxima && \
     cd maxima && \
     sh bootstrap && \
