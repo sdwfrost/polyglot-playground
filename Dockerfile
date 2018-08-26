@@ -363,14 +363,14 @@ RUN pip install beakerx && \
 RUN apt-get update && \
     apt-get install -yq --no-install-recommends \
     debhelper devscripts gnupg pbuilder ubuntu-dev-tools apt-file python && \
-    cd /tmp && \
+    cd ${HOME} && \
     git clone https://github.com/root-project/cling && \
     cd cling/tools/packaging && \
     chmod +x cpt.py && \
-    ./cpt.py --create-dev-env Release --with-workdir=/opt/cling && \
-    cd /tmp && \
-    rm -rf cling && \
-    fix-permissions /opt/cling && \
+    # ./cpt.py --create-dev-env Release --with-workdir=/opt/cling && \
+    # cd /tmp && \
+    # rm -rf cling && \
+    fix-permissions ${HOME} /opt/cling && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
