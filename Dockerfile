@@ -354,7 +354,7 @@ RUN mkdir /opt/quicklisp && \
     cd /tmp && \
     curl -O https://beta.quicklisp.org/quicklisp.lisp && \
     sbcl --load quicklisp.lisp --non-interactive --eval '(quicklisp-quickstart:install :path "/opt/quicklisp/")' && \
-    sbcl --load /opt/quicklisp/setup.lisp --non-interactive --eval '(ql:add-to-init-file)' && \
+    yes '' | sbcl --load /opt/quicklisp/setup.lisp --non-interactive --eval '(ql:add-to-init-file)' && \
     rm quicklisp.lisp && \
     fix-permissions /opt/quicklisp
 RUN cd /tmp && \
