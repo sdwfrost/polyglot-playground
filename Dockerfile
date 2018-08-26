@@ -363,7 +363,7 @@ RUN cd /tmp && \
     mkdir /opt/maxima-jupyter && \
     cp src/*.lisp /opt/maxima-jupyter && \
     python3 ./install-maxima-jupyter.py --root=/opt/maxima-jupyter && \
-    fix-permissions /opt/maxima-jupyter
+    fix-permissions /opt/maxima-jupyter /usr/local/share/jupyter/kernels
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
