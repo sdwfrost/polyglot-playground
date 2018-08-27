@@ -396,9 +396,9 @@ RUN cd /opt && \
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
     libblas-dev \
-    libfile-slurp-perl \
-    libfile-sharedir-perl \
-    libparse-yapp-perl \
+    # libfile-slurp-perl \
+    # libfile-sharedir-perl \
+    # libparse-yapp-perl \
     liblapack-dev \
     libqrupdate-dev \
     libgsl0-dev \
@@ -413,16 +413,11 @@ RUN cd /tmp && \
     mv thrust /usr/local/include && \
     rm thrust-1.8.2.zip && \
     fix-permissions /usr/local/include
-RUN cd /tmp && \
+RUN cd /opt && \
     git clone https://github.com/lawmurray/LibBi && \
     cd LibBi && \
-    PERL_MM_USE_DEFAULT=1  perl -MCPAN -e 'install Template Graph Math::Symbolic Carp::Assert Getopt::ArgvFile' && \
-    perl Makefile.PL && \
-    make && \
-    make test && \
-    make install && \
-    cd /tmp && \
-    rm -rf LibBi
+    PERL_MM_USE_DEFAULT=1  cpan . && \
+    fix-permissions /opt/LibBi
 RUN R -e "install.packages('rbi')"
 
 # Lua
