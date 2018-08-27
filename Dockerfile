@@ -382,6 +382,13 @@ RUN cd /tmp && \
 RUN pip install beakerx && \
     beakerx install
 
+# Lua
+RUN cd /opt && \
+    wget http://ulua.io/download/ulua~latest.zip && \
+    unzip ulua-latest.zip && \
+    rm ulua-latest.zip
+ENV PATH=/opt/ulua:/opt/ulua/bin:$PATH
+
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
