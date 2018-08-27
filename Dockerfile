@@ -392,6 +392,7 @@ ENV BIT=64 PATH=/opt/ulua:$PATH
 RUN cd /opt/ulua/bin && \
     yes 'y' | ./upkg add sci && \
     yes 'y' | ./upkg add sci-lang && \
+    fix-permissions /opt/ulua
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
