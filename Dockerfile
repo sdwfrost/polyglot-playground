@@ -383,11 +383,11 @@ RUN cd /tmp && \
 #    beakerx install
 RUN cd /tmp && \
     git clone https://github.com/twosigma/beakerx && \
-    cd beakerx && \
+    cd beakerx/beakerx && \
     pip install -e . --verbose && \
     beakerx install && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-    cd js/lab && \
+    cd /tmp/beakerx/js/lab && \
     jupyter labextension install . && \
     cd /tmp && \
     rm -rf beakerx
