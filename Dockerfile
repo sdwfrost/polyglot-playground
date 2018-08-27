@@ -396,6 +396,7 @@ RUN cd /opt && \
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
     libblas-dev \
+    libfile-slurp-perl \
     liblapack-dev \
     libqrupdate-dev \
     libgsl0-dev \
@@ -413,7 +414,7 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     git clone https://github.com/lawmurray/LibBi && \
     cd LibBi && \
-    PERL_MM_USE_DEFAULT=1  perl -MCPAN -e 'install Template Graph Math::Symbolic Carp::Assert Parse::Yapp Parse::Lex File::Slurp File::ShareDir Getopt::ArgvFile' && \
+    PERL_MM_USE_DEFAULT=1  perl -MCPAN -e 'install Template Graph Math::Symbolic Carp::Assert Parse::Yapp Parse::Lex File::ShareDir Getopt::ArgvFile' && \
     perl Makefile.PL && \
     make && \
     make test && \
