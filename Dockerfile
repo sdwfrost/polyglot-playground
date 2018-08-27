@@ -399,7 +399,6 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     libfile-slurp-perl \
     libfile-sharedir-perl \
     libparse-yapp-perl \
-    libparse-lex-perl \
     liblapack-dev \
     libqrupdate-dev \
     libgsl0-dev \
