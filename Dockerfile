@@ -363,6 +363,25 @@ RUN cd /opt && \
     python3 ./install-maxima-jupyter.py --root=/opt/maxima-jupyter && \
     fix-permissions /opt/maxima-jupyter /usr/local/share/jupyter/kernels
 
+# JVM languages
+# RUN snap install --classic kotlin && \
+#    fix-permissions /snap
+RUN cd /opt && \
+    wget https://github.com/JetBrains/kotlin/releases/download/v1.2.61/kotlin-compiler-1.2.61.zip && \
+    unzip kotlin-compiler-1.2.61.zip && \
+    rm kotlin-compiler-1.2.61.zip && \
+    cd /opt/kotlinc/bin && \
+    chmod +x kotli* && \
+    fix-permissions /opt/kotlinc
+ENV PATH=/opt/kotlinc/bin:$PATH
+
+RUN cd /tmp && \
+    wget www.scala-lang.org/files/archive/scala-2.11.8.deb && \
+    dpkg -i scala-2.11.8.deb && \
+    rm scala-2.11.8.deb
+RUN pip install beakerx && \
+    beakerx install
+
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
