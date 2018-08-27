@@ -387,10 +387,11 @@ RUN cd /opt && \
     wget http://ulua.io/download/ulua~latest.zip && \
     unzip ulua~latest.zip && \
     rm ulua~latest.zip && \
-    cd /opt/ulua/bin && \
+    fix-permissions /opt/ulua
+ENV BIT=64 PATH=/opt/ulua:$PATH
+RUN cd /opt/ulua/bin && \
     yes 'y' | ./upkg add sci && \
     yes 'y' | ./upkg add sci-lang && \
-ENV BIT=64 PATH=/opt/ulua:$PATH
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
