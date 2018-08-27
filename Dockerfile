@@ -387,7 +387,7 @@ RUN cd /opt && \
     wget http://ulua.io/download/ulua~latest.zip && \
     unzip ulua~latest.zip && \
     rm ulua~latest.zip
-ENV PATH=/opt/ulua:/opt/ulua/bin:$PATH
+ENV BIT=64 PATH=/opt/ulua:$PATH
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
