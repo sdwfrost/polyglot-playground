@@ -420,6 +420,14 @@ RUN cd /opt && \
     fix-permissions /opt/LibBi
 RUN R -e "install.packages('rbi')"
 
+# PARI-GP
+RUN apt-get update && apt-get -yq dist-upgrade && \
+    apt-get install -yq --no-install-recommends \
+    pari-gp && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* 
+RUN pip install pari_jupyter
+
 # Lua
 RUN cd /opt && \
     wget http://ulua.io/download/ulua~latest.zip && \
