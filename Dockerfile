@@ -396,9 +396,6 @@ RUN cd /opt && \
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
     libblas-dev \
-    # libfile-slurp-perl \
-    # libfile-sharedir-perl \
-    # libparse-yapp-perl \
     liblapack-dev \
     libqrupdate-dev \
     libgsl0-dev \
@@ -418,6 +415,7 @@ RUN cd /opt && \
     cd LibBi && \
     PERL_MM_USE_DEFAULT=1  cpan . && \
     fix-permissions /opt/LibBi
+ENV PATH=/opt/LibBi/script:$PATH
 RUN R -e "install.packages('rbi')"
 
 # PARI-GP
