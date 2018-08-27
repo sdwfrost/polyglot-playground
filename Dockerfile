@@ -421,7 +421,8 @@ RUN R -e "install.packages('rbi')"
 # PARI-GP
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
-    pari-gp && \
+    pari-gp \
+    pari-gp2c && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* 
 RUN pip install pari_jupyter
