@@ -379,8 +379,18 @@ RUN cd /tmp && \
     wget www.scala-lang.org/files/archive/scala-2.11.8.deb && \
     dpkg -i scala-2.11.8.deb && \
     rm scala-2.11.8.deb
-RUN pip install beakerx && \
-    beakerx install
+# RUN pip install beakerx && \
+#    beakerx install
+RUN cd /tmp && \
+    git clone https://github.com/twosigma/beakerx && \
+    cd beakerx && \
+    pip install -e . --verbose && \
+    beakerx install && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+    cd js/lab && \
+    jupyter labextension install . && \
+    cd /tmp && \
+    rm -rf beakerx
 
 # Lua
 RUN cd /opt && \
@@ -404,4 +414,3 @@ ENV PATH=${HOME}/.npm/bin:$PATH
 RUN cd ${HOME} && \
     npm install -g ijavascript && \
     ijsinstall
-RUN npm install -g plotly-notebook-js ode-rk4 lib-r-math.js
