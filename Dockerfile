@@ -446,6 +446,9 @@ USER ${NB_USER}
 
 RUN echo 'prefix=${HOME}/.npm' >> ${HOME}/.npmrc 
 ENV PATH=${HOME}/.npm/bin:$PATH
+ENV NODE_PATH=${HOME}/.npm/lib/node_modules
 RUN cd ${HOME} && \
-    npm install -g ijavascript && \
+    npm install -g ijavascript \
+    plotly-notebook-js \
+    ode-rk4 && \
     ijsinstall
