@@ -395,16 +395,17 @@ RUN cd /tmp && \
     yes 'y' | bash ./linux-install-1.9.0.391.sh && \
     rm linux-install-1.9.0.391.sh
 
-RUN cd /tmp && \
-    git clone https://github.com/twosigma/beakerx && \
-    cd beakerx/beakerx && \
-    pip install -e . --verbose && \
-    beakerx install && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-    cd /tmp/beakerx/js/lab && \
-    jupyter labextension install . && \
-    cd /tmp && \
-    rm -rf beakerx
+#RUN cd /tmp && \
+#    git clone https://github.com/twosigma/beakerx && \
+#    cd beakerx/beakerx && \
+#    pip install -e . --verbose && \
+#    beakerx install && \
+#    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+#    cd /tmp/beakerx/js/lab && \
+#    jupyter labextension install . && \
+#    cd /tmp && \
+#    rm -rf beakerx
+RUN pip install beakerx
 
 # Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
