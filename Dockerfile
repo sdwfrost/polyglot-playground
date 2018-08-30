@@ -386,7 +386,7 @@ ENV PATH=/opt/kotlinc/bin:$PATH
 RUN cd /tmp && \
     wget www.scala-lang.org/files/archive/scala-2.13.0-M5.deb && \
     dpkg -i scala-2.13.0-M5.deb && \
-    rm scala-2.11.8.deb
+    rm scala-2.13.0-M5.deb
 
 ## Clojure
 RUN cd /tmp && \
