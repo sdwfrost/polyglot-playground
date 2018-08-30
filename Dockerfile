@@ -283,6 +283,13 @@ RUN curl https://nim-lang.org/choosenim/init.sh -sSf > choosenim.sh && \
     mv /home/jovyan/.nimble/bin /opt/nimble
 ENV PATH=$NIMBLE_DIR/bin:$PATH
 RUN fix-permissions $NIMBLE_DIR
+RUN yes 'y' | nimble install --verbose \
+    arraymancer \
+    gnuplot \
+    neo \
+    nimdata \
+    plotly \
+    random
 
 # Scilab
 ENV SCILAB_VERSION=6.0.1
@@ -296,6 +303,7 @@ RUN mkdir /opt/scilab-${SCILAB_VERSION} && \
     ln -fs /opt/scilab-${SCILAB_VERSION}/bin/scilab-cli /usr/local/bin/scilab-cli && \
     pip install scilab_kernel
 
+# Octave
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
     octave && \
@@ -364,33 +372,39 @@ RUN cd /opt && \
     fix-permissions /opt/maxima-jupyter /usr/local/share/jupyter/kernels
 
 # JVM languages
-# RUN snap install --classic kotlin && \
-#    fix-permissions /snap
-#RUN cd /opt && \
-#    wget https://github.com/JetBrains/kotlin/releases/download/v1.2.61/kotlin-compiler-1.2.61.zip && \
-#    unzip kotlin-compiler-1.2.61.zip && \
-#    rm kotlin-compiler-1.2.61.zip && \
-#    cd /opt/kotlinc/bin && \
-#    chmod +x kotli* && \
-#    fix-permissions /opt/kotlinc
-#ENV PATH=/opt/kotlinc/bin:$PATH
+## kotlin
+RUN cd /opt && \
+    wget https://github.com/JetBrains/kotlin/releases/download/v1.3-M2/kotlin-compiler-1.3-M2.zip && \
+    unzip kotlin-compiler-1.3-M2.zip && \
+    rm kotlin-compiler-1.3-M2.zip && \
+    cd /opt/kotlinc/bin && \
+    chmod +x kotli* && \
+    fix-permissions /opt/kotlinc
+ENV PATH=/opt/kotlinc/bin:$PATH
 
-#RUN cd /tmp && \
-#    wget www.scala-lang.org/files/archive/scala-2.11.8.deb && \
-#    dpkg -i scala-2.11.8.deb && \
-#    rm scala-2.11.8.deb
-#RUN pip install beakerx && \
-#    beakerx install
-# RUN cd /tmp && \
-#    git clone https://github.com/twosigma/beakerx && \
-#    cd beakerx/beakerx && \
-#    pip install -e . --verbose && \
-#    beakerx install && \
-#    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
-#    cd /tmp/beakerx/js/lab && \
-#    jupyter labextension install . && \
-#    cd /tmp && \
-#    rm -rf beakerx
+## Scala
+RUN cd /tmp && \
+    wget www.scala-lang.org/files/archive/scala-2.13.0-M5.deb && \
+    dpkg -i scala-2.13.0-M5.deb && \
+    rm scala-2.11.8.deb
+
+## Clojure
+RUN cd /tmp && \
+    curl -O https://download.clojure.org/install/linux-install-1.9.0.391.sh && \
+    chmod +x linux-install-1.9.0.391.sh && \
+    yes 'y' | bash ./linux-install-1.9.0.391.sh && \
+    rm linux-install-1.9.0.391.sh
+
+RUN cd /tmp && \
+    git clone https://github.com/twosigma/beakerx && \
+    cd beakerx/beakerx && \
+    pip install -e . --verbose && \
+    beakerx install && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+    cd /tmp/beakerx/js/lab && \
+    jupyter labextension install . && \
+    cd /tmp && \
+    rm -rf beakerx
 
 # Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
