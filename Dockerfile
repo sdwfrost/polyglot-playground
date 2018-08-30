@@ -405,7 +405,10 @@ RUN cd /tmp && \
 #    jupyter labextension install . && \
 #    cd /tmp && \
 #    rm -rf beakerx
-RUN pip install beakerx
+RUN pip install beakerx && \
+    beakerx install && \
+    rm -rf /home/$NB_USER/.cache/pip && \
+    fix-permissions /home/$NB_USER
 
 # Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
