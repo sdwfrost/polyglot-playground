@@ -480,7 +480,10 @@ RUN cd /tmp && \
     jupyter-client \
     jupyter-console \
     jupyter-core && \
-    stack install gtk2hs-buildtools && \
+    rm -rf /home/$NB_USER/.cache/pip && \
+    fix-permissions /home/$NB_USER    
+    
+RUN stack install gtk2hs-buildtools && \
     stack install --fast && \
     ihaskell install --stack && \
     jupyter labextension install ihaskell_labextension && \
