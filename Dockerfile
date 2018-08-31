@@ -528,7 +528,7 @@ RUN cd /tmp && \
 RUN cd /opt && \
     mkdir /opt/cling && \
     wget https://github.com/vgvassilev/cling/archive/v0.5.tar.gz && \
-    tar xvf cling-0.5.tar.gz -C /opt/cling --strip-components=1
+    tar xvf cling-0.5.tar.gz -C /opt/cling --strip-components=1 && \
     cd cling/tools/packaging && \
     chmod +x cpt.py && \
     ./cpt.py --create-dev-env Release --with-workdir=/opt/cling && \
