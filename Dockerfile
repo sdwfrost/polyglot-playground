@@ -380,7 +380,7 @@ RUN cd /opt && \
     cd /opt/kotlinc/bin && \
     chmod +x kotli* && \
     fix-permissions /opt/kotlinc
-# ENV PATH=/opt/kotlinc/bin:$PATH
+ENV PATH=/opt/kotlinc/bin:$PATH
 
 ## Scala
 RUN cd /tmp && \
@@ -411,7 +411,12 @@ RUN pip install beakerx && \
     rm -rf /home/$NB_USER/.cache/pip && \
     fix-permissions /home/$NB_USER /usr/share/jupyter/kernels
 
-# Libbi
+# Remove non-working/defunct kernels
+RUN rm -rf /usr/share/jupyter/kernels/kotlin && \
+    rm -rf /usr/share/jupyter/kernels/groovy && \
+    rm -rf /usr/share/jupyter/kernels/sql
+
+# Libb
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
     libblas-dev \
