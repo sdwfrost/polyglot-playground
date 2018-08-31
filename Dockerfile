@@ -487,7 +487,7 @@ RUN cd /tmp/IHaskell && \
     mv stack.yaml stack.yaml.bak && \
     mv stack-8.4.yaml stack.yaml && \
     stack upgrade && \
-    stack install gtk2hs-buildtools && \
+    # stack install gtk2hs-buildtools && \
     stack install --fast && \
     ihaskell install --stack && \
     jupyter labextension install ihaskell_labextension && \
