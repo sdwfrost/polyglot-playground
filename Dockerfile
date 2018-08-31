@@ -8,19 +8,14 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get -yq dist-upgrade\
     && apt-get install -yq --no-install-recommends \
-    wget \
     ant \
+    build-essential \
     bzip2 \
     ca-certificates \
     cmake \
     curl \
-    sudo \
-    locales \
-    fonts-liberation \
-    build-essential \
-    openjdk-8-jdk \
-    openjdk-8-jre \
     dirmngr \
+    fonts-liberation \
     fonts-dejavu \
     gcc \
     gfortran \
@@ -30,8 +25,18 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     gnuplot \
     gnupg-agent \
     gzip \
+    libffi-dev \
+    libgmp-dev \
+    libtinfo-dev \
+    libzmq3-dev \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libmagic-dev \
+    libblas-dev \
+    liblapack-dev \
     libboost-all-dev \
     libcln-dev \
+    libcurl4-gnutls-dev \
     libgeos-dev \
     libginac-dev \
     libginac6 \
@@ -41,18 +46,23 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     libjsoncpp-dev \
     libqt5widgets5 \
     libsm6 \
+    libssl-dev \
     libxext-dev \
     libxrender1 \
     libxt6 \
     libzmqpp-dev \
     lmodern \
+    locales \
     netcat \
+    openjdk-8-jdk \
+    openjdk-8-jre \
     pandoc \
     pkg-config \
     python3-dev \
     rsync \
     sbcl \
     software-properties-common \
+    sudo \
     texlive-fonts-extra \
     texlive-fonts-recommended \
     texlive-generic-recommended \
@@ -61,6 +71,8 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     texlive-xetex \
     tzdata \
     unzip \
+    wget \
+    xz-utils \
     zlib1g-dev \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -189,8 +201,6 @@ RUN mkdir /etc/julia && \
 RUN add-apt-repository ppa:marutter/rrutter && \
     apt-get update && \
     apt-get install -yq \
-    libssl-dev \
-    libcurl4-gnutls-dev \
     r-base r-base-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -511,17 +521,6 @@ RUN mkdir ${HOME}/.stack && \
     fix-permissions ${HOME}
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
-    libffi-dev \
-    libgmp-dev \
-    xz-utils \
-    zlib1g-dev \
-    libtinfo-dev \
-    libzmq3-dev \
-    libcairo2-dev \
-    libpango1.0-dev \
-    libmagic-dev \
-    libblas-dev \
-    liblapack-dev \
     haskell-stack && \
     stack upgrade && \
     apt-get clean && \
