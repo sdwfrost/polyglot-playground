@@ -59,6 +59,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     lmodern \
     locales \
     netcat \
+    opam \
     openjdk-8-jdk \
     openjdk-8-jre \
     pandoc \
@@ -468,6 +469,11 @@ RUN cd /tmp && \
     sbcl --load ./cl-jupyter.lisp && \
     cd /tmp && \
     rm -rf cl-jupyter
+
+# OCAML
+RUN opam install jupyter && \
+    opam install jupyter-archimedes  && \
+    jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter"
 
 # .Net
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
