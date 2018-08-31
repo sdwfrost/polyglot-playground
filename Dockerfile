@@ -472,6 +472,12 @@ RUN cd /tmp && \
     cp $GOPATH/src/github.com/gopherdata/gophernotes/kernel/* /usr/local/share/jupyter/kernels/gophernotes && \
     fix-permissions /usr/local/share/jupyter/kernels/
 
+# C
+RUN pip install jupyter-c-kernel && \
+    install_c_kernel && \
+    rm -rf /home/$NB_USER/.cache/pip && \    
+    fix-permissions /usr/local/share/jupyter/kernels ${HOME}
+
 # Haskell
 RUN mkdir ${HOME}/.stack && \
     fix-permissions ${HOME}
