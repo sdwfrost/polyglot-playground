@@ -429,14 +429,6 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E03280
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-#RUN cd /tmp && \
-#    git clone --recursive https://github.com/zabirauf/icsharp.git && \
-#    cd icsharp && \
-#    bash ./build.sh && \
-#    jupyter-kernelspec install kernel-spec && \
-#    cd /tmp && \
-#    rm -rf icsharp
-
 RUN cd /tmp && \
     wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb && \
     yes 'y' | dpkg -i packages-microsoft-prod.deb && \
@@ -446,6 +438,14 @@ RUN cd /tmp && \
     dotnet-sdk-2.1 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+RUN cd /tmp && \
+    git clone --recursive https://github.com/zabirauf/icsharp.git && \
+    cd icsharp && \
+    bash ./build.sh && \
+    jupyter-kernelspec install kernel-spec && \
+    cd /tmp && \
+    rm -rf icsharp
 
 RUN cd /tmp && \
     mkdir ifsharp && \
