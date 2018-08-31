@@ -465,7 +465,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     libblas-dev \
     liblapack-dev \
     haskell-stack && \
-    stack upgrade --binary-only && \
+    stack upgrade && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*  && \
     fix-permissions ${HOME}
@@ -483,7 +483,8 @@ RUN cd /tmp && \
     rm -rf /home/$NB_USER/.cache/pip && \
     fix-permissions /home/$NB_USER    
     
-RUN stack install gtk2hs-buildtools && \
+RUN stack upgrade && \
+    stack install gtk2hs-buildtools && \
     stack install --fast && \
     ihaskell install --stack && \
     jupyter labextension install ihaskell_labextension && \
