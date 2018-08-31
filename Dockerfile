@@ -18,8 +18,8 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     locales \
     fonts-liberation \
     build-essential \
-    default-jdk \
-    default-jre \
+    openjdk-8-jdk \
+    openjdk-8-jre \
     dirmngr \
     fonts-dejavu \
     gcc \
@@ -265,9 +265,6 @@ RUN julia -e 'Pkg.init()' && \
 RUN pip install gnuplot_kernel && \
     python3 -m gnuplot_kernel install
 
-# CFFI
-RUN pip install cffi_magic
-
 # GR
 RUN cd /tmp && \
     wget https://gr-framework.org/downloads/gr-latest-Ubuntu-x86_64.tar.gz && \
@@ -287,6 +284,7 @@ RUN fix-permissions $NIMBLE_DIR
 RUN yes 'y' | nimble install --verbose \
     arraymancer \
     gnuplot \
+    inim \
     neo \
     nimdata \
     plotly \
@@ -490,7 +488,8 @@ RUN cd /tmp && \
     fix-permissions /usr/local/share/jupyter/kernels/
 
 # C
-RUN pip install jupyter-c-kernel && \
+RUN pip install cffi_magic \
+    jupyter-c-kernel && \
     install_c_kernel && \
     rm -rf /home/$NB_USER/.cache/pip && \    
     fix-permissions /usr/local/share/jupyter/kernels ${HOME}
