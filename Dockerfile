@@ -18,8 +18,8 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     locales \
     fonts-liberation \
     build-essential \
-    default-jdk \
-    default-jre \
+    openjdk-8-jdk \
+    openjdk-8-jre \
     fonts-dejavu \
     gcc \
     gfortran \
@@ -412,11 +412,11 @@ RUN pip install beakerx && \
     fix-permissions /home/$NB_USER /usr/share/jupyter/kernels
 
 # Remove non-working/defunct kernels
-RUN rm -rf /usr/share/jupyter/kernels/kotlin && \
-    rm -rf /usr/share/jupyter/kernels/groovy && \
+RUN rm -rf /usr/share/jupyter/kernels/groovy && \
     rm -rf /usr/share/jupyter/kernels/sql
+#    rm -rf /usr/share/jupyter/kernels/sql
 
-# Libb
+# Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
     libblas-dev \
