@@ -447,16 +447,14 @@ RUN cd /tmp && \
 #    cd /tmp && \
 #    rm -rf icsharp
 
-RUN cd /tmp && \
+RUN cd /opt && \
     mkdir ifsharp && \
     cd ifsharp && \
     wget https://github.com/fsprojects/IfSharp/releases/download/v3.0.0/IfSharp.v3.0.0.zip && \
     unzip IfSharp.v3.0.0.zip && \
     mono ifsharp.exe && \
     mv ${HOME}/.local/share/jupyter/kernels/ifsharp/ /usr/local/share/jupyter/kernels/ifsharp/ && \
-    fix-permissions /usr/local/share/jupyter/kernels ${HOME} && \
-    cd /tmp && \
-    rm -rf ifsharp
+    fix-permissions /usr/local/share/jupyter/kernels ${HOME} /opt/ifsharp && \
 
 # Go
 RUN cd /tmp && \
