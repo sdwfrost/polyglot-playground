@@ -18,8 +18,8 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     locales \
     fonts-liberation \
     build-essential \
-    openjdk-8-jdk \
-    openjdk-8-jre \
+    default-jdk \
+    default-jre \
     fonts-dejavu \
     gcc \
     gfortran \
@@ -413,8 +413,39 @@ RUN pip install beakerx && \
 
 # Remove non-working/defunct kernels
 RUN rm -rf /usr/share/jupyter/kernels/groovy && \
-    rm -rf /usr/share/jupyter/kernels/sql
-#    rm -rf /usr/share/jupyter/kernels/sql
+    rm -rf /usr/share/jupyter/kernels/sql && \
+    rm -rf /usr/share/jupyter/kernels/kotlin
+
+# .Net
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
+    echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list && \
+    apt update && \
+    apt-get install -yq --no-install-recommends mono-complete \
+    mono-dbg \
+    mono-runtime-dbg \
+    fsharp && \
+    mozroots --import --machine --sync && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN cd /tmp && \
+    git clone --recursive https://github.com/zabirauf/icsharp.git && \
+    cd icsharp && \
+    bash ./build.sh && \
+    jupyter-kernelspec install kernel-spec && \
+    cd /tmp && \
+    rm -rf icsharp
+
+RUN cd /tmp && \
+    mkdir ifsharp && \
+    cd ifsharp && \
+    wget https://github.com/fsprojects/IfSharp/releases/download/v3.0.0/IfSharp.v3.0.0.zip && \
+    unzip https://github.com/fsprojects/IfSharp/releases/download/v3.0.0/IfSharp.v3.0.0.zip && \
+    mono ifsharp.exe && \
+    mv ${HOME}/.local/share/jupyter/kernels/ifsharp/ /usr/local/share/jupyter/kernels/ifsharp/ && \
+    fix-permissions /usr/local/share/jupyter/kernels && \
+    cd /tmp && \
+    rm -rf ifsharp
 
 # Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
