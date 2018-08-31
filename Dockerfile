@@ -407,8 +407,9 @@ RUN cd /tmp && \
 #    rm -rf beakerx
 RUN pip install beakerx && \
     beakerx install && \
+    jupyter nbextension enable beakerx --py --sys-prefix && \
     rm -rf /home/$NB_USER/.cache/pip && \
-    fix-permissions /home/$NB_USER
+    fix-permissions /home/$NB_USER /usr/share/jupyter/kernels
 
 # Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
