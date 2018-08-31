@@ -438,6 +438,16 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E03280
 #    rm -rf icsharp
 
 RUN cd /tmp && \
+    wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb && \
+    yes 'y' | dpkg -i packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install -yq --no-install-recommends \
+    apt-transport-https \
+    dotnet-sdk-2.1 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN cd /tmp && \
     mkdir ifsharp && \
     cd ifsharp && \
     wget https://github.com/fsprojects/IfSharp/releases/download/v3.0.0/IfSharp.v3.0.0.zip && \
