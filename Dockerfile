@@ -481,19 +481,19 @@ RUN cd /tmp && \
     jupyter-console \
     jupyter-core && \
     rm -rf /home/$NB_USER/.cache/pip && \
-    fix-permissions /home/$NB_USER    
+    fix-permissions /home/$NB_USER
     
-RUN cd /tmp/IHaskell && \
-    mv stack.yaml stack.yaml.bak && \
-    mv stack-8.4.yaml stack.yaml && \
-    stack upgrade && \
-    # stack install gtk2hs-buildtools && \
-    stack install --fast && \
-    ihaskell install --stack && \
-    jupyter labextension install ihaskell_labextension && \
-    cd /tmp && \
-    rm -rf IHaskell && \
-    fix-permissions ${HOME}
+# RUN cd /tmp/IHaskell && \
+#    mv stack.yaml stack.yaml.bak && \
+#    mv stack-8.4.yaml stack.yaml && \
+#    stack upgrade && \
+#    # stack install gtk2hs-buildtools && \
+#    stack install --fast && \
+#    ihaskell install --stack && \
+#    jupyter labextension install ihaskell_labextension && \
+#    cd /tmp && \
+#    rm -rf IHaskell && \
+#    fix-permissions ${HOME}
 
 # Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
