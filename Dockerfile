@@ -214,6 +214,7 @@ RUN R -e "install.packages(c(\
     'pomp', \
     'pracma', \
     'ReacTran', \
+    'reticulate', \
     'rmarkdown', \
     'rodeo', \
     'Rcpp', \
@@ -608,11 +609,13 @@ COPY . ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 
-RUN echo 'prefix=${HOME}/.npm' >> ${HOME}/.npmrc 
-ENV PATH=${HOME}/.npm/bin:$PATH
-ENV NODE_PATH=${HOME}/.npm/lib/node_modules
+RUN mkdir /opt/npm && \
+RUN echo 'prefix=/opt/npm' >> ${HOME}/.npmrc 
+ENV PATH=/opt/npm/bin:$PATH
+ENV NODE_PATH=/opt/npm/lib/node_modules
 RUN cd ${HOME} && \
     npm install -g ijavascript \
     plotly-notebook-js \
     ode-rk4 && \
-    ijsinstall
+    ijsinstall && \
+    fix-permissions /opt/npm ${HOME} /usr/local/share/jupyter/kernels
