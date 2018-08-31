@@ -483,7 +483,10 @@ RUN cd /tmp && \
     rm -rf /home/$NB_USER/.cache/pip && \
     fix-permissions /home/$NB_USER    
     
-RUN stack upgrade && \
+RUN cd /tmp/IHaskell && \
+    mv stack.yaml stack.yaml.bak && \
+    mv stack-8.4.yaml stack.yaml && \
+    stack upgrade && \
     stack install gtk2hs-buildtools && \
     stack install --fast && \
     ihaskell install --stack && \
