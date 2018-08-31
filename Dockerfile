@@ -20,6 +20,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     build-essential \
     default-jdk \
     default-jre \
+    dirmngr \
     fonts-dejavu \
     gcc \
     gfortran \
