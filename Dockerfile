@@ -460,6 +460,15 @@ RUN cd /tmp && \
 #    rm -rf /usr/share/jupyter/kernels/sql && \
 #    rm -rf /usr/share/jupyter/kernels/kotlin
 
+# SBCL
+RUN cd /tmp && \
+    git clone https://github.com/fredokun/cl-jupyter && \
+    cd cl-jupyter && \
+    python3 ./install-cl-jupyter.py && \
+    sbcl --load ./cl-jupyter.lisp && \
+    cd /tmp && \
+    rm -rf cl-jupyter
+
 # .Net
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
     echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list && \
