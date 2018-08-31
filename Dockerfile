@@ -472,7 +472,14 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
 RUN cd /tmp && \
     git clone https://github.com/gibiansky/IHaskell && \
     cd IHaskell && \
-    pip install -r requirements.txt && \
+    pip install jupyter \
+    jupyter_nbextensions_configurator \
+    jupyter_contrib_nbextensions \
+    ipykernel \
+    ipywidgets \
+    jupyter-client \
+    jupyter-console \
+    jupyter-core && \
     stack install gtk2hs-buildtools && \
     stack install --fast && \
     ihaskell install --stack && \
