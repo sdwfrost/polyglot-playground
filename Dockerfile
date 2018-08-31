@@ -454,7 +454,7 @@ RUN cd /opt && \
     unzip IfSharp.v3.0.0.zip && \
     mono ifsharp.exe && \
     mv ${HOME}/.local/share/jupyter/kernels/ifsharp/ /usr/local/share/jupyter/kernels/ifsharp/ && \
-    fix-permissions /usr/local/share/jupyter/kernels ${HOME} /opt/ifsharp && \
+    fix-permissions /usr/local/share/jupyter/kernels ${HOME} /opt/ifsharp
 
 # Go
 RUN cd /tmp && \
