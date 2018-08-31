@@ -441,12 +441,41 @@ RUN cd /tmp && \
     mkdir ifsharp && \
     cd ifsharp && \
     wget https://github.com/fsprojects/IfSharp/releases/download/v3.0.0/IfSharp.v3.0.0.zip && \
-    unzip https://github.com/fsprojects/IfSharp/releases/download/v3.0.0/IfSharp.v3.0.0.zip && \
+    unzip IfSharp.v3.0.0.zip && \
     mono ifsharp.exe && \
     mv ${HOME}/.local/share/jupyter/kernels/ifsharp/ /usr/local/share/jupyter/kernels/ifsharp/ && \
     fix-permissions /usr/local/share/jupyter/kernels && \
     cd /tmp && \
     rm -rf ifsharp
+
+# Haskell
+RUN apt-get update && apt-get -yq dist-upgrade && \
+    apt-get install -yq --no-install-recommends \
+    libffi-dev \
+    libgmp-dev \
+    xz-utils \
+    zlib1g-dev \
+    libtinfo-dev \
+    libzmq3-dev \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libmagic-dev \
+    libblas-dev \
+    liblapack-dev \
+    haskell-stack && \
+    stack upgrade --binary-only && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* 
+RUN cd /tmp && \
+    git clone https://github.com/gibiansky/IHaskell && \
+    cd IHaskell && \
+    pip install -r requirements.txt && \
+    stack install gtk2hs-buildtools && \
+    stack install --fast && \
+    ihaskell install --stack && \
+    jupyter labextension install ihaskell_labextension && \
+    cd /tmp && \
+    rm -rf IHaskell
 
 # Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
