@@ -380,7 +380,7 @@ RUN cd /opt && \
     cd /opt/kotlinc/bin && \
     chmod +x kotli* && \
     fix-permissions /opt/kotlinc
-ENV PATH=/opt/kotlinc/bin:$PATH
+# ENV PATH=/opt/kotlinc/bin:$PATH
 
 ## Scala
 RUN cd /tmp && \
