@@ -444,7 +444,7 @@ RUN cd /tmp && \
     unzip IfSharp.v3.0.0.zip && \
     mono ifsharp.exe && \
     mv ${HOME}/.local/share/jupyter/kernels/ifsharp/ /usr/local/share/jupyter/kernels/ifsharp/ && \
-    fix-permissions /usr/local/share/jupyter/kernels && \
+    fix-permissions /usr/local/share/jupyter/kernels ${HOME} && \
     cd /tmp && \
     rm -rf ifsharp
 
@@ -465,7 +465,8 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     haskell-stack && \
     stack upgrade --binary-only && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* 
+    rm -rf /var/lib/apt/lists/*  && \
+    fix-permissions ${HOME}
 RUN cd /tmp && \
     git clone https://github.com/gibiansky/IHaskell && \
     cd IHaskell && \
@@ -475,7 +476,8 @@ RUN cd /tmp && \
     ihaskell install --stack && \
     jupyter labextension install ihaskell_labextension && \
     cd /tmp && \
-    rm -rf IHaskell
+    rm -rf IHaskell && \
+    fix-permissions ${HOME}
 
 # Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
