@@ -382,12 +382,24 @@ RUN cd /opt && \
     chmod +x kotli* && \
     fix-permissions /opt/kotlinc
 ENV PATH=/opt/kotlinc/bin:$PATH
+RUN cd /tmp && \
+    git clone https://github.com/ligee/kotlin-jupyter && \
+    cd kotlin-jupyter && \
+    ./gradlew install -PinstallPath=/usr/local/share/jupyter/kernels/kotlin/ && \
+    cd /tmp && \
+    rm -rf kotlin-jupyter
 
 ## Scala
 RUN cd /tmp && \
     wget www.scala-lang.org/files/archive/scala-2.13.0-M5.deb && \
     dpkg -i scala-2.13.0-M5.deb && \
     rm scala-2.13.0-M5.deb
+RUN cd /tmp && \
+    git clone https://github.com/jupyter-scala/jupyter-scala && \
+    cd jupyter-scala && \
+    ./jupyter-scala && \
+    cd /tmp && \
+    rm -rf jupyter-scala
 
 ## Clojure
 RUN cd /tmp && \
@@ -395,7 +407,14 @@ RUN cd /tmp && \
     chmod +x linux-install-1.9.0.391.sh && \
     yes 'y' | bash ./linux-install-1.9.0.391.sh && \
     rm linux-install-1.9.0.391.sh
-
+RUN cd /tmp && \
+    git clone https://github.com/clojupyter/clojupyter && \
+    cd clojupyter && \
+    make && \
+    make install && \
+    mv ${HOME}/.local/share/jupyter/kernels/clojupyter/ /usr/local/share/jupyter/kernels/clojupyter/ && \
+    fix-permissions /usr/local/share/jupyter/kernels ${HOME}
+    
 #RUN cd /tmp && \
 #    git clone https://github.com/twosigma/beakerx && \
 #    cd beakerx/beakerx && \
@@ -406,16 +425,15 @@ RUN cd /tmp && \
 #    jupyter labextension install . && \
 #    cd /tmp && \
 #    rm -rf beakerx
-RUN pip install beakerx && \
-    beakerx install && \
-    jupyter nbextension enable beakerx --py --sys-prefix && \
-    rm -rf /home/$NB_USER/.cache/pip && \
-    fix-permissions /home/$NB_USER /usr/share/jupyter/kernels
-
+#RUN pip install beakerx && \
+#    beakerx install && \
+#    jupyter nbextension enable beakerx --py --sys-prefix && \
+#    rm -rf /home/$NB_USER/.cache/pip && \
+#    fix-permissions /home/$NB_USER /usr/share/jupyter/kernels
 # Remove non-working/defunct kernels
-RUN rm -rf /usr/share/jupyter/kernels/groovy && \
-    rm -rf /usr/share/jupyter/kernels/sql && \
-    rm -rf /usr/share/jupyter/kernels/kotlin
+#RUN rm -rf /usr/share/jupyter/kernels/groovy && \
+#    rm -rf /usr/share/jupyter/kernels/sql && \
+#    rm -rf /usr/share/jupyter/kernels/kotlin
 
 # .Net
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
@@ -465,6 +483,7 @@ RUN cd /tmp && \
     fix-permissions /opt/go
 ENV PATH=/opt/go/bin:$PATH
 RUN cd /tmp && \
+    go get -u github.com/gopherdata/gophernotes && \
     git clone https://github.com/gopherdata/gophernotes && \
     mkdir -p /usr/local/share/jupyter/kernels/gophernotes && \
     cp ./gophernotes/kernel/* /usr/local/share/jupyter/kernels/gophernotes && \
@@ -533,6 +552,10 @@ RUN cd /tmp && \
 #    cd /tmp && \
 #    rm -rf IHaskell && \
 #    fix-permissions ${HOME}
+
+# Rust
+RUN cd /tmp && \
+    yes 'y' | curl https://sh.rustup.rs -sSf | sh
 
 # Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
