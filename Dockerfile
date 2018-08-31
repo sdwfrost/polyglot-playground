@@ -439,13 +439,13 @@ RUN cd /tmp && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN cd /tmp && \
-    git clone --recursive https://github.com/zabirauf/icsharp.git && \
-    cd icsharp && \
-    bash ./build.sh && \
-    jupyter-kernelspec install kernel-spec && \
-    cd /tmp && \
-    rm -rf icsharp
+#RUN cd /tmp && \
+#    git clone --recursive https://github.com/zabirauf/icsharp.git && \
+#    cd icsharp && \
+#    bash ./build.sh && \
+#    jupyter-kernelspec install kernel-spec && \
+#    cd /tmp && \
+#    rm -rf icsharp
 
 RUN cd /tmp && \
     mkdir ifsharp && \
@@ -457,6 +457,20 @@ RUN cd /tmp && \
     fix-permissions /usr/local/share/jupyter/kernels ${HOME} && \
     cd /tmp && \
     rm -rf ifsharp
+
+# Go
+RUN cd /tmp && \
+    wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz && \
+    mkdir /opt/go && \
+    tar xvf go1.11.linux-amd64.tar.gz -C /opt/go --strip-components=1 && \
+    rm go1.11.linux-amd64.tar.gz && \
+    fix-permissions /opt/go
+ENV PATH=/opt/go/bin:$PATH
+RUN cd /tmp && \
+    go get -u github.com/gopherdata/gophernotes && \
+    mkdir -p /usr/local/share/jupyter/kernels/gophernotes && \
+    cp $GOPATH/src/github.com/gopherdata/gophernotes/kernel/* /usr/local/share/jupyter/kernels/gophernotes && \
+    fix-permissions /usr/local/share/jupyter/kernels/
 
 # Haskell
 RUN mkdir ${HOME}/.stack && \
