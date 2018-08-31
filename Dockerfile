@@ -467,9 +467,9 @@ RUN cd /tmp && \
     fix-permissions /opt/go
 ENV PATH=/opt/go/bin:$PATH
 RUN cd /tmp && \
-    go get -u github.com/gopherdata/gophernotes && \
+    git clone https://github.com/gopherdata/gophernotes && \
     mkdir -p /usr/local/share/jupyter/kernels/gophernotes && \
-    cp $GOPATH/src/github.com/gopherdata/gophernotes/kernel/* /usr/local/share/jupyter/kernels/gophernotes && \
+    cp ./gophernotes/kernel/* /usr/local/share/jupyter/kernels/gophernotes && \
     fix-permissions /usr/local/share/jupyter/kernels/
 
 # C
