@@ -478,6 +478,17 @@ RUN pip install jupyter-c-kernel && \
     rm -rf /home/$NB_USER/.cache/pip && \    
     fix-permissions /usr/local/share/jupyter/kernels ${HOME}
 
+# Fortran
+RUN cd /tmp && \
+    git clone https://github.com/ZedThree/jupyter-fortran-kernel && \
+    pip install -e jupyter-fortran-kernel && \
+    cd jupyter-fortran-kernel && \
+    jupyter-kernelspec install fortran_spec/ && \
+    cd /tmp && \
+    rm -rf jupyter-fortran-kernel && \
+    rm -rf /home/$NB_USER/.cache/pip && \    
+    fix-permissions /usr/local/share/jupyter/kernels ${HOME}
+
 # Haskell
 RUN mkdir ${HOME}/.stack && \
     fix-permissions ${HOME}
