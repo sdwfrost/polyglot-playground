@@ -449,6 +449,8 @@ RUN cd /tmp && \
     rm -rf ifsharp
 
 # Haskell
+RUN mkdir ${HOME}/.stack && \
+    fix-permissions ${HOME}
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
     libffi-dev \
