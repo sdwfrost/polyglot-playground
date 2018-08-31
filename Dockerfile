@@ -9,11 +9,15 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get -yq dist-upgrade\
     && apt-get install -yq --no-install-recommends \
     ant \
+    apt-file \
     build-essential \
     bzip2 \
     ca-certificates \
+    clang-6.0 \
     cmake \
     curl \
+    debhelper \
+    devscripts \
     dirmngr \
     fonts-liberation \
     fonts-dejavu \
@@ -23,6 +27,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     ginac-tools \
     git \
     gnuplot \
+    gnupg \
     gnupg-agent \
     gzip \
     libffi-dev \
@@ -57,7 +62,9 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     openjdk-8-jdk \
     openjdk-8-jre \
     pandoc \
+    pbuilder \
     pkg-config \
+    python \
     python3-dev \
     rsync \
     sbcl \
@@ -70,6 +77,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     texlive-latex-extra \
     texlive-xetex \
     tzdata \
+    ubuntu-dev-tools \
     unzip \
     wget \
     xz-utils \
@@ -515,6 +523,16 @@ RUN cd /tmp && \
     rm -rf jupyter-fortran-kernel && \
     rm -rf /home/$NB_USER/.cache/pip && \    
     fix-permissions /usr/local/share/jupyter/kernels ${HOME}
+
+# C++
+RUN cd /opt && \
+    mkdir /opt/cling && \
+    wget https://github.com/vgvassilev/cling/archive/v0.5.tar.gz && \
+    tar xvf cling-0.5.tar.gz -C /opt/cling --strip-components=1
+    cd cling/tools/packaging && \
+    chmod +x cpt.py && \
+    ./cpt.py --create-dev-env Release --with-workdir=/opt/cling && \
+    fix-permissions ${HOME} /opt/cling
 
 # Haskell
 RUN mkdir ${HOME}/.stack && \
