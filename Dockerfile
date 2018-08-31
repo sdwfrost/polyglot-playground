@@ -219,7 +219,8 @@ RUN R -e "install.packages(c(\
     'cOde', \
     'deSolve',\
     'devtools', \
-    'ddeSolve',\
+    'ddeSolve', \
+    'feather', \
     'GillespieSSA', \
     'git2r', \
     'ggplot2', \
@@ -254,22 +255,28 @@ RUN R -e "devtools::install_github('mrc-ide/odin',upgrade=FALSE)"
 # taking effect properly on the .local folder in the jovyan home dir.
 RUN julia -e 'Pkg.init()' && \
     julia -e 'Pkg.update()' && \
+    julia -e 'Pkg.add("DataFrames")' && \
+    julia -e 'Pkg.add("Feather")' && \
     julia -e 'Pkg.add("Gadfly")' && \
     julia -e 'Pkg.add("GR")' && \
     julia -e 'Pkg.add("Plots")' && \
     julia -e 'Pkg.add("IJulia")' && \
     julia -e 'Pkg.add("DifferentialEquations")' && \
+    julia -e 'Pkg.add("NamedArrays")' && \
     julia -e 'Pkg.add("RandomNumbers")' && \
     julia -e 'Pkg.add("Gillespie")' && \
     julia -e 'Pkg.add("PyCall")' && \
     julia -e 'Pkg.add("PyPlot")' && \
     julia -e 'Pkg.add("PlotlyJS")' && \
     # Precompile Julia packages \
+    julia -e 'using DataFrames' && \
+    julia -e 'using Feather' && \
     julia -e 'using Gadfly' && \
     julia -e 'using GR' && \
     julia -e 'using Plots' && \
     julia -e 'using IJulia' && \
     julia -e 'using DifferentialEquations' && \
+    julia -e 'using NamedArrays' && \
     julia -e 'using RandomNumbers' && \
     julia -e 'using Gillespie' && \
     julia -e 'using PyCall' && \
@@ -325,9 +332,10 @@ RUN mkdir /opt/scilab-${SCILAB_VERSION} && \
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
     octave && \
+    octave --eval 'pkg install -forge dataframe' && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*    
-RUN pip install octave_kernel
+RUN pip install octave_kernel feather-format
 
 # XPP
 ENV XPP_DIR=/opt/xppaut
@@ -621,11 +629,16 @@ RUN cd /opt/ulua/bin && \
     yes 'y' | ./upkg add sci-lang && \
     fix-permissions /opt/ulua
 
+# SOS
+RUN pip install sos sos-notebook && \
+    python3 -m sos_notebook.install
+
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 
+# Node
 RUN mkdir /opt/npm && \
 RUN echo 'prefix=/opt/npm' >> ${HOME}/.npmrc 
 ENV PATH=/opt/npm/bin:$PATH
