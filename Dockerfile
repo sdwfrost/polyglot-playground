@@ -66,7 +66,6 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     pandoc \
     pbuilder \
     pkg-config \
-    python \
     python3-dev \
     rsync \
     sbcl \
