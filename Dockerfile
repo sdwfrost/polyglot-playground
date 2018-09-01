@@ -482,7 +482,7 @@ RUN yes 'y' | opam init && \
 RUN yes 'Y' | opam install jupyter && \
     yes 'Y' | opam install jupyter-archimedes  && \
     jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter" && \
-    fix-permission ${HOME}
+    fix-permissions ${HOME}
 
 # .Net
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
