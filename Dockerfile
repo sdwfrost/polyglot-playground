@@ -16,6 +16,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     clang-6.0 \
     cmake \
     curl \
+    darcs \
     debhelper \
     devscripts \
     dirmngr \
@@ -58,8 +59,8 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     libzmqpp-dev \
     lmodern \
     locales \
+    mercurial \
     netcat \
-    opam \
     openjdk-8-jdk \
     openjdk-8-jre \
     pandoc \
@@ -471,6 +472,12 @@ RUN cd /tmp && \
     rm -rf cl-jupyter
 
 # OCAML
+apt update && \
+    apt-get install -yq \
+    opam \
+    ocaml && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 RUN yes 'y' | opam init && \
     eval `opam config env`
 RUN yes 'Y' | opam install jupyter && \
