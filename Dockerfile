@@ -604,7 +604,9 @@ RUN cd /tmp && \
 
 # Rust
 RUN cd /tmp && \
-    curl https://sh.rustup.rs -sSf | sh -y
+    curl https://sh.rustup.rs -sSf > rustup.sh && \
+    sh ./rustup.sh -y && \
+    rm /tmp/rustup.sh
 
 # Libbi
 RUN apt-get update && apt-get -yq dist-upgrade && \
