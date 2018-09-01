@@ -471,7 +471,8 @@ RUN cd /tmp && \
     rm -rf cl-jupyter
 
 # OCAML
-RUN opam install jupyter && \
+RUN opam init && \
+    opam install jupyter && \
     opam install jupyter-archimedes  && \
     jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter"
 
