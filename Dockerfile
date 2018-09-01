@@ -664,13 +664,14 @@ RUN mkdir /opt/npm && \
     echo 'prefix=/opt/npm' >> ${HOME}/.npmrc 
 ENV PATH=/opt/npm/bin:$PATH
 ENV NODE_PATH=/opt/npm/lib/node_modules
-RUN npm install -g ijavascript \
-    plotly-notebook-js \
-    ode-rk4 && \
-    ijsinstall && \
-    fix-permissions /opt/npm ${HOME} /usr/local/share/jupyter/kernels
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
+
+RUN npm install -g ijavascript \
+    plotly-notebook-js \
+    ode-rk4 && \
+    ijsinstall && \
+    fix-permissions /opt/npm ${HOME} /usr/local/share/jupyter/kernels
