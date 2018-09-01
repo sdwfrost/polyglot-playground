@@ -473,8 +473,8 @@ RUN cd /tmp && \
 # OCAML
 RUN yes 'y' | opam init && \
     eval `opam config env`
-RUN opam install jupyter && \
-    opam install jupyter-archimedes  && \
+RUN yes 'Y' | opam install jupyter && \
+    yes 'Y' | opam install jupyter-archimedes  && \
     jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter" && \
     fix-permission ${HOME}
 
