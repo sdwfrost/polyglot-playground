@@ -433,13 +433,13 @@ RUN cd /tmp && \
     chmod +x linux-install-1.9.0.391.sh && \
     yes 'y' | bash ./linux-install-1.9.0.391.sh && \
     rm linux-install-1.9.0.391.sh
-RUN cd /tmp && \
-    git clone https://github.com/clojupyter/clojupyter && \
-    cd clojupyter && \
-    make && \
-    make install && \
-    mv ${HOME}/.local/share/jupyter/kernels/clojupyter/ /usr/local/share/jupyter/kernels/clojupyter/ && \
-    fix-permissions /usr/local/share/jupyter/kernels ${HOME}
+#RUN cd /tmp && \
+#    git clone https://github.com/clojupyter/clojupyter && \
+#    cd clojupyter && \
+#    make && \
+#    make install && \
+#    mv ${HOME}/.local/share/jupyter/kernels/clojupyter/ /usr/local/share/jupyter/kernels/clojupyter/ && \
+#    fix-permissions /usr/local/share/jupyter/kernels ${HOME}
     
 #RUN cd /tmp && \
 #    git clone https://github.com/twosigma/beakerx && \
