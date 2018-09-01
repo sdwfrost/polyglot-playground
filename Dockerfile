@@ -472,7 +472,7 @@ RUN cd /tmp && \
     rm -rf cl-jupyter
 
 # OCAML
-apt update && \
+RUN apt update && \
     apt-get install -yq \
     opam \
     ocaml && \
