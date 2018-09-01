@@ -661,7 +661,7 @@ RUN pip install sos sos-notebook && \
 
 # Node
 RUN mkdir /opt/npm && \
-RUN echo 'prefix=/opt/npm' >> ${HOME}/.npmrc 
+    echo 'prefix=/opt/npm' >> ${HOME}/.npmrc 
 ENV PATH=/opt/npm/bin:$PATH
 ENV NODE_PATH=/opt/npm/lib/node_modules
 RUN npm install -g ijavascript \
