@@ -408,12 +408,12 @@ RUN cd /opt && \
     chmod +x kotli* && \
     fix-permissions /opt/kotlinc
 ENV PATH=/opt/kotlinc/bin:$PATH
-RUN cd /tmp && \
-    git clone https://github.com/ligee/kotlin-jupyter && \
-    cd kotlin-jupyter && \
-    ./gradlew install -PinstallPath=/usr/local/share/jupyter/kernels/kotlin/ && \
-    cd /tmp && \
-    rm -rf kotlin-jupyter
+#RUN cd /tmp && \
+#    git clone https://github.com/ligee/kotlin-jupyter && \
+#    cd kotlin-jupyter && \
+#    ./gradlew install -PinstallPath=/usr/local/share/jupyter/kernels/kotlin/ && \
+#    cd /tmp && \
+#    rm -rf kotlin-jupyter
 
 ## Scala
 RUN cd /tmp && \
