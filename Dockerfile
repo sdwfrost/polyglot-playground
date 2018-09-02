@@ -664,6 +664,7 @@ RUN mkdir /opt/npm && \
     echo 'prefix=/opt/npm' >> ${HOME}/.npmrc 
 ENV PATH=/opt/npm/bin:$PATH
 ENV NODE_PATH=/opt/npm/lib/node_modules
+RUN fix-permissions /opt/npm
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
