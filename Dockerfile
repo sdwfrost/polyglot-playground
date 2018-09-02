@@ -462,13 +462,11 @@ RUN cd /tmp && \
 #    rm -rf /usr/share/jupyter/kernels/kotlin
 
 # SBCL
-RUN cd /tmp && \
+RUN cd /opt && \
     git clone https://github.com/fredokun/cl-jupyter && \
     cd cl-jupyter && \
     python3 ./install-cl-jupyter.py && \
-    sbcl --load ./cl-jupyter.lisp && \
-    cd /tmp && \
-    rm -rf cl-jupyter
+    sbcl --load ./cl-jupyter.lisp
 
 # OCAML
 RUN apt update && \
@@ -531,12 +529,12 @@ RUN cd /tmp && \
     rm go1.11.linux-amd64.tar.gz && \
     fix-permissions /opt/go
 ENV PATH=/opt/go/bin:$PATH
-RUN cd /tmp && \
+RUN cd /opt && \
     go get -u github.com/gopherdata/gophernotes && \
     git clone https://github.com/gopherdata/gophernotes && \
     mkdir -p /usr/local/share/jupyter/kernels/gophernotes && \
-    cp ./gophernotes/kernel/* /usr/local/share/jupyter/kernels/gophernotes && \
-    fix-permissions /usr/local/share/jupyter/kernels/
+    cp /opt/gophernotes/kernel/* /usr/local/share/jupyter/kernels/gophernotes && \
+    fix-permissions /opt/gophernotes /usr/local/share/jupyter/kernels/
 
 # C
 RUN pip install cffi_magic \
@@ -674,5 +672,9 @@ USER ${NB_USER}
 RUN npm install -g ijavascript \
     plotly-notebook-js \
     ode-rk4 && \
-    ijsinstall && \
-    fix-permissions /opt/npm ${HOME} /usr/local/share/jupyter/kernels
+    ijsinstall
+
+USER root
+RUN fix-permissions /opt/npm ${HOME} /usr/local/share/jupyter/kernels
+
+USER ${NB_USER}
