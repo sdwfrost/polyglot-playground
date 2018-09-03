@@ -482,10 +482,10 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 RUN mkdir /opt/opam && \
     yes 'y' | opam init --root /opt/opam && \
-    eval `opam config env`
-RUN yes 'Y' | opam install jupyter && \
-    yes 'Y' | opam install jupyter-archimedes  && \
-    yes 'Y' | opam install odepack  && \
+    eval `opam --root /opt/opam config env`
+RUN yes 'Y' | opam install --root /opt/opam jupyter && \
+    yes 'Y' | opam install --root /opt/opam jupyter-archimedes  && \
+    yes 'Y' | opam install --root /opt/opam odepack  && \
     jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter" && \
     #jupyter kernelspec install --name ocaml-jupyter "/usr/local/share/jupyter" && \
     fix-permissions ${HOME} /opt/opam
