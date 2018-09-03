@@ -8,6 +8,8 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get -yq dist-upgrade\
     && apt-get install -yq --no-install-recommends \
+    autoconf \
+    automake \
     ant \
     apt-file \
     build-essential \
@@ -33,6 +35,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     gzip \
     libffi-dev \
     libgmp-dev \
+    libgsl0-dev \
     libtinfo-dev \
     libzmq3-dev \
     libcairo2-dev \
@@ -50,6 +53,8 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     libgl1-mesa-glx \
     libgs-dev \
     libjsoncpp-dev \
+    libnetcdf-dev \
+    libqrupdate-dev \
     libqt5widgets5 \
     libsm6 \
     libssl-dev \
@@ -71,12 +76,12 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     sbcl \
     software-properties-common \
     sudo \
-    texlive-fonts-extra \
-    texlive-fonts-recommended \
-    texlive-generic-recommended \
-    texlive-latex-base \
-    texlive-latex-extra \
-    texlive-xetex \
+    #texlive-fonts-extra \
+    #texlive-fonts-recommended \
+    #texlive-generic-recommended \
+    #texlive-latex-base \
+    #texlive-latex-extra \
+    #texlive-xetex \
     tzdata \
     ubuntu-dev-tools \
     unzip \
@@ -475,13 +480,15 @@ RUN apt update && \
     ocaml && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-RUN yes 'y' | opam init && \
+RUN mkdir /opt/opam && \
+    yes 'y' | opam init --root /opt/opam && \
     eval `opam config env`
 RUN yes 'Y' | opam install jupyter && \
     yes 'Y' | opam install jupyter-archimedes  && \
     yes 'Y' | opam install odepack  && \
     jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter" && \
-    fix-permissions ${HOME}
+    #jupyter kernelspec install --name ocaml-jupyter "/usr/local/share/jupyter" && \
+    fix-permissions ${HOME} /opt/opam
 
 # .Net
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
@@ -687,18 +694,7 @@ RUN cd /tmp && \
     sh ./rustup.sh -y && \
     rm /tmp/rustup.sh
 
-# Libbi
-RUN apt-get update && apt-get -yq dist-upgrade && \
-    apt-get install -yq --no-install-recommends \
-    libblas-dev \
-    liblapack-dev \
-    libqrupdate-dev \
-    libgsl0-dev \
-    libnetcdf-dev \
-    autoconf \
-    automake && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* 
+# Libbi 
 RUN cd /tmp && \
     wget https://github.com/thrust/thrust/releases/download/1.8.2/thrust-1.8.2.zip && \
     unzip thrust-1.8.2.zip && \
@@ -759,3 +755,6 @@ USER root
 RUN fix-permissions /opt/npm ${HOME} /usr/local/share/jupyter/kernels
 
 USER ${NB_USER}
+RUN cd ${HOME} && \
+    rm fix-permissions && \
+    rm choosenim.sh
