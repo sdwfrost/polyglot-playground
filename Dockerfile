@@ -482,7 +482,7 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 RUN mkdir /opt/opam && \
     yes 'y' | opam init --root /opt/opam && \
-    eval `opam --root /opt/opam config env`
+    eval `opam config env`
 RUN yes 'Y' | opam install --root /opt/opam jupyter && \
     yes 'Y' | opam install --root /opt/opam jupyter-archimedes  && \
     yes 'Y' | opam install --root /opt/opam odepack  && \
