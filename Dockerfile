@@ -480,15 +480,12 @@ RUN apt update && \
     ocaml && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-RUN mkdir /opt/opam && \
-    yes 'y' | opam init --root /opt/opam && \
+RUN yes 'y' | opam init && \
     eval `opam config env`
-RUN yes 'Y' | opam install --root /opt/opam jupyter && \
-    yes 'Y' | opam install --root /opt/opam jupyter-archimedes  && \
-    yes 'Y' | opam install --root /opt/opam odepack  && \
-    jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter" && \
-    #jupyter kernelspec install --name ocaml-jupyter "/usr/local/share/jupyter" && \
-    fix-permissions ${HOME} /opt/opam
+RUN yes 'Y' | opam install jupyter && \
+    yes 'Y' | opam install jupyter-archimedes  && \
+    yes 'Y' | opam install odepack  && \
+    jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter"
 
 # .Net
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF && \
