@@ -399,6 +399,7 @@ RUN cd /opt && \
     fix-permissions /opt/maxima-jupyter /usr/local/share/jupyter/kernels
 
 # JVM languages
+RUN update-java-alternatives --set /usr/lib/jvm/java-1.8.0-openjdk-amd64
 ## kotlin
 RUN cd /opt && \
     wget https://github.com/JetBrains/kotlin/releases/download/v1.3-M2/kotlin-compiler-1.3-M2.zip && \
@@ -451,15 +452,14 @@ RUN cd /tmp && \
 #    jupyter labextension install . && \
 #    cd /tmp && \
 #    rm -rf beakerx
-#RUN pip install beakerx && \
-#    beakerx install && \
-#    jupyter nbextension enable beakerx --py --sys-prefix && \
-#    rm -rf /home/$NB_USER/.cache/pip && \
-#    fix-permissions /home/$NB_USER /usr/share/jupyter/kernels
+RUN pip install beakerx && \
+    beakerx install && \
+    jupyter nbextension enable beakerx --py --sys-prefix && \
+    rm -rf /home/$NB_USER/.cache/pip && \
+    fix-permissions /home/$NB_USER /usr/share/jupyter/kernels
 # Remove non-working/defunct kernels
-#RUN rm -rf /usr/share/jupyter/kernels/groovy && \
-#    rm -rf /usr/share/jupyter/kernels/sql && \
-#    rm -rf /usr/share/jupyter/kernels/kotlin
+RUN rm -rf /usr/share/jupyter/kernels/groovy && \
+    rm -rf /usr/share/jupyter/kernels/sql
 
 # SBCL
 RUN cd /opt && \
@@ -479,6 +479,7 @@ RUN yes 'y' | opam init && \
     eval `opam config env`
 RUN yes 'Y' | opam install jupyter && \
     yes 'Y' | opam install jupyter-archimedes  && \
+    yes 'Y' | opam install odepack  && \
     jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter" && \
     fix-permissions ${HOME}
 
@@ -488,6 +489,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E03280
     apt update && \
     apt-get install -yq --no-install-recommends mono-complete \
     mono-dbg \
+    mono-csharp-shell \
     mono-runtime-dbg \
     fsharp && \
     mozroots --import --machine --sync && \
@@ -535,6 +537,7 @@ RUN cd /opt && \
     mkdir -p /usr/local/share/jupyter/kernels/gophernotes && \
     cp /opt/gophernotes/kernel/* /usr/local/share/jupyter/kernels/gophernotes && \
     fix-permissions /opt/gophernotes /usr/local/share/jupyter/kernels/
+ENV PATH=/opt/gophernotes:$PATH
 
 # C
 RUN pip install cffi_magic \
@@ -555,6 +558,7 @@ RUN cd /tmp && \
     fix-permissions /usr/local/share/jupyter/kernels ${HOME}
 
 # C++
+# cling
 RUN cd /tmp && \
     wget https://github.com/vgvassilev/cling/archive/v0.5.tar.gz && \
     tar xvf v0.5.tar.gz -C /tmp/cling --strip-components=1 && \
