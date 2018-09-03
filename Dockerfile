@@ -564,6 +564,7 @@ RUN cd /tmp && \
 # C++
 # cling
 RUN cd /tmp && \
+    mkdir /tmp/cling && \
     wget https://github.com/vgvassilev/cling/archive/v0.5.tar.gz && \
     tar xvf v0.5.tar.gz -C /tmp/cling --strip-components=1 && \
     cd cling/tools/packaging && \
