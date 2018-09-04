@@ -583,7 +583,7 @@ RUN cd /tmp && \
     cd libzmq && \
     mkdir build && \
     cd build && \
-    cmake -DWITH_PERF_TOOL=OFF -DZMQ_BUILD_TESTS=OFF -DENABLE_CPACK=OFF -DCMAKE_BUILD_TYPE=Release && .. \
+    cmake -DWITH_PERF_TOOL=OFF -DZMQ_BUILD_TESTS=OFF -DENABLE_CPACK=OFF -DCMAKE_BUILD_TYPE=Release ..  && \
     make && \
     make install && \
     cd /tmp && \
