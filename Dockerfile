@@ -563,16 +563,17 @@ RUN cd /tmp && \
 
 # C++
 # cling
-RUN cd /tmp && \
-    mkdir /tmp/cling && \
+RUN cd /opt && \
+    mkdir /opt/cling && \
+    mkdir /opt/cling-build && \
     wget https://github.com/vgvassilev/cling/archive/v0.5.tar.gz && \
-    tar xvf v0.5.tar.gz -C /tmp/cling --strip-components=1 && \
-    cd cling/tools/packaging && \
+    tar xvf v0.5.tar.gz -C /opt/cling-build --strip-components=1 && \
+    cd /opt/cling-build/tools/packaging && \
     chmod +x cpt.py && \
-    ./cpt.py --create-dev-env Release --with-workdir=/tmp/cling && \
-    cp -R /tmp/cling/cling-Ubuntu-18.04-x86_64-0.6~dev-f0a7454/ /opt/cling/ && \
+    ./cpt.py --create-dev-env Release --with-workdir=/opt/cling-build && \
+    cp -R /opt/cling-build/cling-Ubuntu-18.04-x86_64-0.6~dev-f0a7454/ /opt/cling/ && \
     fix-permissions ${HOME} /opt/cling && \
-    rm -rf /tmp/cling
+    rm -rf /opt/cling-build
 ENV PATH=/opt/cling/bin:$PATH
 ENV LD_LIBRARY_PATH=/opt/cling/lib:$LD_LIBRARY_PATH
 
