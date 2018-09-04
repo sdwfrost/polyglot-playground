@@ -624,7 +624,7 @@ RUN cd /tmp && \
     cd xtl && \
     mkdir build && \
     cd build && \
-    cmake -D CMAKE_BUILD_TYPE .. && \
+    cmake -D CMAKE_BUILD_TYPE=Release .. && \
     make install && \
     cd /tmp && \
     rm -rf xtl
