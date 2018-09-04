@@ -633,6 +633,11 @@ RUN cd /tmp && \
     cd /tmp && \
     rm -rf xtl
 
+RUN apt-get install -yq --no-install-recommends \
+    uuid-dev \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN cd /tmp && \
     git clone https://github.com/QuantStack/xeus && \
     cd xeus && \
