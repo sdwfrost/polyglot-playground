@@ -602,9 +602,9 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     git clone https://github.com/weidai11/cryptopp && \
     cd cryptopp && \
-    mkdir build && \
-    cd build && \
-    cmake -D BUILD_SHARED=OFF -D BUILD_TESTING=OFF -D CMAKE_BUILD_TYPE=Release .. && \
+    # mkdir build && \
+    # cd build && \
+    # cmake -D BUILD_SHARED=OFF -D BUILD_TESTING=OFF -D CMAKE_BUILD_TYPE=Release .. && \
     make && \
     make install && \
     cd /tmp && \
