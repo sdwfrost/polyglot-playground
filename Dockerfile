@@ -602,9 +602,13 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     git clone https://github.com/weidai11/cryptopp && \
     cd cryptopp && \
-    # mkdir build && \
-    # cd build && \
-    # cmake -D BUILD_SHARED=OFF -D BUILD_TESTING=OFF -D CMAKE_BUILD_TYPE=Release .. && \
+    git submodule add https://github.com/noloader/cryptopp-cmake.git cmake && \
+    git submodule update --remote && \
+    cp "$PWD/cmake/cryptopp-config.cmake" "$PWD" && \
+    cp "$PWD/cmake/CMakeLists.txt" "$PWD" && \
+    mkdir build && \
+    cd build && \
+    cmake -D BUILD_SHARED=OFF -D BUILD_TESTING=OFF -D CMAKE_BUILD_TYPE=Release .. && \
     make && \
     make install && \
     cd /tmp && \
