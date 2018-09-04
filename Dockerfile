@@ -613,7 +613,8 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     git clone https://github.com/nlohmann/json && \
     cd json && \
-    cmake && \
+    cmake . && \
+    make && \
     make install && \
     cd /tmp && \
     rm -rf json
