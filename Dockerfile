@@ -633,7 +633,8 @@ RUN cd /tmp && \
     cd /tmp && \
     rm -rf xtl
 
-RUN apt-get install -yq --no-install-recommends \
+RUN apt-get update && \
+    apt-get install -yq --no-install-recommends \
     uuid-dev \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
