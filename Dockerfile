@@ -575,7 +575,7 @@ RUN cd /opt && \
     cd /opt/cling-build/tools/packaging && \
     chmod +x cpt.py && \
     ./cpt.py --create-dev-env Release --with-workdir=/opt/cling-build && \
-    cp -R /opt/cling-build/cling-Ubuntu-18.04-x86_64-0.6~dev-f0a7454/ /opt/cling/ && \
+    cp -R /opt/cling-build/cling-Ubuntu-18.04-x86_64*/ /opt/cling/ && \
     fix-permissions ${HOME} /opt/cling && \
     rm -rf /opt/cling-build
 ENV PATH=/opt/cling/bin:$PATH
