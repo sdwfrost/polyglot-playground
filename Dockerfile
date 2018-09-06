@@ -12,6 +12,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     automake \
     ant \
     apt-file \
+    apt-utils \
     build-essential \
     bzip2 \
     ca-certificates \
@@ -22,6 +23,7 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     debhelper \
     devscripts \
     dirmngr \
+    ed \
     fonts-liberation \
     fonts-dejavu \
     gcc \
@@ -58,7 +60,9 @@ RUN apt-get update && apt-get -yq dist-upgrade\
     libqt5widgets5 \
     libsm6 \
     libssl-dev \
+    libudunits2-0 \
     libxext-dev \
+    libxml2-dev \
     libxrender1 \
     libxt6 \
     libzmqpp-dev \
@@ -219,7 +223,7 @@ RUN add-apt-repository ppa:marutter/rrutter && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN R -e "install.packages(c(\
+RUN R -e "setRepositories(ind=1:2);install.packages(c(\
     'adaptivetau', \
     'boot', \
     'cOde', \
