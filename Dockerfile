@@ -708,7 +708,7 @@ RUN cd /tmp && \
     curl https://sh.rustup.rs -sSf > /usr/local/bin/rustup && \
     chmod +x /usr/local/bin/rustup && \
     fix-permissions /usr/local/bin && \
-    rustup -y install nightly-2016-08-01 && \
+    rustup install -y nightly-2016-08-01 && \
     cargo install --git https://github.com/murarth/rusti
 
 # Libbi 
