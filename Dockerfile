@@ -676,6 +676,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*  && \
     fix-permissions ${HOME}
+ENV PATH=/home/jovyan/.local/bin:$PATH
 RUN cd /tmp && \
     git clone https://github.com/gibiansky/IHaskell && \
     cd IHaskell && \
