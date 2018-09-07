@@ -703,11 +703,13 @@ RUN cd /tmp && \
 #    rm -rf IHaskell && \
 #    fix-permissions ${HOME}
 
-# Rust
+# Rust and Rusti
 RUN cd /tmp && \
-    curl https://sh.rustup.rs -sSf > rustup.sh && \
-    sh ./rustup.sh -y && \
-    rm /tmp/rustup.sh
+    curl https://sh.rustup.rs -sSf > /usr/local/bin/rustup && \
+    chmod +x /usr/local/bin/rustup && \
+    fix-permissions /usr/local/bin && \
+    rustup -y install nightly-2016-08-01 && \
+    cargo install --git https://github.com/murarth/rusti
 
 # Libbi 
 RUN cd /tmp && \
