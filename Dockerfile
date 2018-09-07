@@ -643,28 +643,28 @@ RUN apt-get update && \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN cd /tmp && \
-    git clone https://github.com/QuantStack/xeus && \
-    cd xeus && \
-    mkdir build && \
-    cd build && \
-    cmake -D BUILD_EXAMPLES=ON -D CMAKE_BUILD_TYPE=Release .. && \
-    make && \
-    make install && \
-    cd /tmp && \
-    rm -rf xeus
+#RUN cd /tmp && \
+#    git clone https://github.com/QuantStack/xeus && \
+#    cd xeus && \
+#    mkdir build && \
+#    cd build && \
+#    cmake -D BUILD_EXAMPLES=ON -D CMAKE_BUILD_TYPE=Release .. && \
+#    make && \
+#    make install && \
+#    cd /tmp && \
+#    rm -rf xeus
 
-RUN cd /tmp && \
-    git clone https://github.com/QuantStack/xeus-cling && \
-    cd xeus-cling && \
-    mkdir build && \
-    cd build && \
-    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib .. && \
-    make && \
-    make install && \
-    cd /tmp && \
-    rm -rf xeus-cling && \
-    fix-permissions /opt/cling
+#RUN cd /tmp && \
+#    git clone https://github.com/QuantStack/xeus-cling && \
+#    cd xeus-cling && \
+#    mkdir build && \
+#    cd build && \
+#    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib .. && \
+#    make && \
+#    make install && \
+#    cd /tmp && \
+#    rm -rf xeus-cling && \
+#    fix-permissions /opt/cling
 
 # Haskell
 RUN mkdir ${HOME}/.stack && \
