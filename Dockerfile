@@ -703,14 +703,6 @@ RUN cd /tmp && \
 #    rm -rf IHaskell && \
 #    fix-permissions ${HOME}
 
-# Rust and Rusti
-RUN cd /tmp && \
-    curl https://sh.rustup.rs -sSf > /usr/local/bin/rustup && \
-    chmod +x /usr/local/bin/rustup && \
-    fix-permissions /usr/local/bin && \
-    rustup install nightly-2016-08-01 -y && \
-    cargo install --git https://github.com/murarth/rusti
-
 # Libbi 
 RUN cd /tmp && \
     wget https://github.com/thrust/thrust/releases/download/1.8.2/thrust-1.8.2.zip && \
@@ -757,6 +749,14 @@ RUN mkdir /opt/npm && \
 ENV PATH=/opt/npm/bin:$PATH
 ENV NODE_PATH=/opt/npm/lib/node_modules
 RUN fix-permissions /opt/npm
+
+# Rust and Rusti
+#RUN cd /tmp && \
+#    curl https://sh.rustup.rs -sSf > /usr/local/bin/rustup && \
+#    chmod +x /usr/local/bin/rustup && \
+#    fix-permissions /usr/local/bin && \
+#    rustup install nightly-2016-08-01 -y && \
+#    cargo install --git https://github.com/murarth/rusti
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
