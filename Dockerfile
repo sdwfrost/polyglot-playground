@@ -227,6 +227,7 @@ RUN add-apt-repository ppa:marutter/rrutter && \
 RUN cd /opt && \
     git clone https://github.com/grzegorzmazur/yacas && \
     cd yacas && \
+    git checkout develop && \
     mkdir build && \
     cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_CYACAS_GUI=0 -DENABLE_CYACAS_KERNEL=1  .. && \
