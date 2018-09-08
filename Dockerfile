@@ -224,16 +224,14 @@ RUN add-apt-repository ppa:marutter/rrutter && \
     rm -rf /var/lib/apt/lists/*
 
 # Yacas
-RUN cd /tmp && \
+RUN cd /opt && \
     git clone https://github.com/grzegorzmazur/yacas && \
     cd yacas && \
     mkdir build && \
     cd build && \
-    cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_CYACAS_GUI=0 -DENABLE_CYACAS_KERNEL=1  ..
+    cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_CYACAS_GUI=0 -DENABLE_CYACAS_KERNEL=1  .. && \
     make && \
-    make install && \
-    cd /tmp && \
-    rm -rf yacas
+    make install
 
 RUN R -e "setRepositories(ind=1:2);install.packages(c(\
     'adaptivetau', \
