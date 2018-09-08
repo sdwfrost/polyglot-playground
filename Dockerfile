@@ -753,6 +753,21 @@ RUN cd /opt/ulua/bin && \
     yes 'y' | ./upkg add sci-lang && \
     fix-permissions /opt/ulua
 
+# Terra
+RUN apt-get update && apt-get -yq dist-upgrade\
+    && apt-get install -yq --no-install-recommends \
+    llvm-6.0-dev \
+    libclang-6.0-dev && \
+    cp /usr/bin/clang-6.0 /usr/local/bin/clang && \
+    git clone https://github.com/zdevito/terra && \
+    cd terra && \
+    echo "LLVM_CONFIG = /usr/lib/llvm-6.0/bin/llvm-config\nLLVM_COMPILER_BIN = $(shell $(LLVM_CONFIG) --bindir)\nLLVM_CXX = /usr/bin/clang++-6.0\nLLVM_CC  = /usr/bin/clang-6.0" | tee Makefile.inc && \ 
+    make && \
+    make install && \
+    rm /usr/local/bin/clang && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # SOS
 RUN pip install sos sos-notebook && \
     python3 -m sos_notebook.install
