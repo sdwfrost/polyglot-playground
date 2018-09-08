@@ -223,6 +223,18 @@ RUN add-apt-repository ppa:marutter/rrutter && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Yacas
+RUN cd /tmp && \
+    git clone https://github.com/grzegorzmazur/yacas && \
+    cd yacas && \
+    mkdir build && \
+    cd build && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_CYACAS_GUI=0 -DENABLE_CYACAS_KERNEL=1  ..
+    make && \
+    make install && \
+    cd /tmp && \
+    rm -rf yacas
+
 RUN R -e "setRepositories(ind=1:2);install.packages(c(\
     'adaptivetau', \
     'boot', \
@@ -257,7 +269,8 @@ RUN R -e "devtools::install_github('IRkernel/IRkernel')" && \
     rm -rf $HOME/.local && \
     fix-permissions /usr/local/share/jupyter
 RUN pip install rpy2
-RUN R -e "devtools::install_github('mrc-ide/odin',upgrade=FALSE)"
+RUN R -e "devtools::install_github('mrc-ide/odin',upgrade=FALSE)" && \
+    R -e "devtools::install_github('ggrothendieck/ryacas')"
 
 # Add Julia packages.
 # Install IJulia as jovyan and then move the kernelspec out
@@ -278,6 +291,7 @@ RUN julia -e 'Pkg.init()' && \
     julia -e 'Pkg.add("PyCall")' && \
     julia -e 'Pkg.add("PyPlot")' && \
     julia -e 'Pkg.add("PlotlyJS")' && \
+    julia -e 'Pkg.add("SymPy")' && \
     # Precompile Julia packages \
     julia -e 'using DataFrames' && \
     julia -e 'using Feather' && \
@@ -291,6 +305,7 @@ RUN julia -e 'Pkg.init()' && \
     julia -e 'using Gillespie' && \
     julia -e 'using PyCall' && \
     julia -e 'using PyPlot' && \
+    julia -e 'using SymPy' && \
     # move kernelspec out of home \
     mv $HOME/.local/share/jupyter/kernels/julia* /usr/local/share/jupyter/kernels/ && \
     chmod -R go+rx /usr/local/share/jupyter && \
