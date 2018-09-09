@@ -799,10 +799,7 @@ RUN cd /tmp && \
 
 # Rust and Rusti
 RUN cd /tmp && \
-    curl https://sh.rustup.rs -sSf > /usr/local/bin/rustup && \
-    chmod +x /usr/local/bin/rustup && \
-    fix-permissions /usr/local/bin && \
-    rustup install stable && \
+    curl -sSf sh.rustup.rs | sh -s -- -y && \
     cargo install cargo-script && \
     echo '// cargo-deps: eom="0.10.0", ndarray="0.11"' > hello.rs && \
     cargo script hello.rs && \
