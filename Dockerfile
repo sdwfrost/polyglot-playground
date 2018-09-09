@@ -804,8 +804,9 @@ RUN cd /tmp && \
     fix-permissions /usr/local/bin && \
     rustup install stable && \
     cargo install cargo-script && \
-    echo '// cargo-deps: ' > hello.rs && \
-    cargo script hello.rs
+    echo '// cargo-deps: eom="0.10.0", ndarray="0.11"' > hello.rs && \
+    cargo script hello.rs && \
+    rm hell*
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
