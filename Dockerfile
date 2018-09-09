@@ -780,12 +780,12 @@ ENV NODE_PATH=/opt/npm/lib/node_modules
 RUN fix-permissions /opt/npm
 
 # Rust and Rusti
-#RUN cd /tmp && \
-#    curl https://sh.rustup.rs -sSf > /usr/local/bin/rustup && \
-#    chmod +x /usr/local/bin/rustup && \
-#    fix-permissions /usr/local/bin && \
-#    rustup install nightly-2016-08-01 -y && \
-#    cargo install --git https://github.com/murarth/rusti
+RUN cd /tmp && \
+    curl https://sh.rustup.rs -sSf > /usr/local/bin/rustup && \
+    chmod +x /usr/local/bin/rustup && \
+    fix-permissions /usr/local/bin && \
+    rustup install stable && \
+    cargo install cargo-script
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
