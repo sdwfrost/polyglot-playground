@@ -779,13 +779,33 @@ ENV PATH=/opt/npm/bin:$PATH
 ENV NODE_PATH=/opt/npm/lib/node_modules
 RUN fix-permissions /opt/npm
 
+# MKL
+RUN cd /tmp && \
+    wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB && \
+    apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB && \
+    sh -c 'echo deb https://apt.repos.intel.com/mkl all main > /etc/apt/sources.list.d/intel-mkl.list' && \
+    apt-get update && \
+    apt-get install -yq intel-mkl-64bit-2018.2-046 && \
+    update-alternatives --install /usr/lib/x86_64-linux-gnu/libblas.so     libblas.so-x86_64-linux-gnu      /opt/intel/mkl/lib/intel64/libmkl_rt.so 50 && \
+    update-alternatives --install /usr/lib/x86_64-linux-gnu/libblas.so.3   libblas.so.3-x86_64-linux-gnu    /opt/intel/mkl/lib/intel64/libmkl_rt.so 50 && \
+    update-alternatives --install /usr/lib/x86_64-linux-gnu/liblapack.so   liblapack.so-x86_64-linux-gnu    /opt/intel/mkl/lib/intel64/libmkl_rt.so 50 && \
+    update-alternatives --install /usr/lib/x86_64-linux-gnu/liblapack.so.3 liblapack.so.3-x86_64-linux-gnu  /opt/intel/mkl/lib/intel64/libmkl_rt.so 50 && \
+    echo "/opt/intel/lib/intel64"     >  /etc/ld.so.conf.d/mkl.conf && \
+    echo "/opt/intel/mkl/lib/intel64" >> /etc/ld.so.conf.d/mkl.conf && \
+    ldconfig && \
+    echo "MKL_THREADING_LAYER=GNU" >> /etc/environment && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Rust and Rusti
 RUN cd /tmp && \
     curl https://sh.rustup.rs -sSf > /usr/local/bin/rustup && \
     chmod +x /usr/local/bin/rustup && \
     fix-permissions /usr/local/bin && \
     rustup install stable && \
-    cargo install cargo-script
+    cargo install cargo-script && \
+    echo '// cargo-deps: ' > hello.rs && \
+    cargo script hello.rs
 
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
