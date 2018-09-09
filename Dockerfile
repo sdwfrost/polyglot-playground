@@ -798,6 +798,7 @@ RUN cd /tmp && \
     rm -rf /var/lib/apt/lists/*
 
 # Rust and Rusti
+ENV PATH=${HOME}/.cargo/bin:$PATH
 RUN cd /tmp && \
     curl https://sh.rustup.rs -sSf | sh -s -- -y && \
     cargo install cargo-script && \
