@@ -802,7 +802,7 @@ ENV PATH=${HOME}/.cargo/bin:$PATH
 RUN cd /tmp && \
     curl https://sh.rustup.rs -sSf | sh -s -- -y && \
     cargo install cargo-script && \
-    echo '// cargo-deps: eom="0.10.0", ndarray="0.11"' > hello.rs && \
+    echo '// cargo-deps: eom="0.10.0", ndarray="0.11"\nfn main(){}' > hello.rs && \
     cargo script hello.rs && \
     rm hell*
 
