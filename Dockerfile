@@ -324,13 +324,16 @@ RUN cd /tmp && \
 
 # Nim
 ENV NIMBLE_DIR=/opt/nimble
-RUN curl https://nim-lang.org/choosenim/init.sh -sSf > choosenim.sh && \
+ENV CHOOSENIM_DIR=/opt/choosenim
+RUN cd /tmp && \
+    curl https://nim-lang.org/choosenim/init.sh -sSf > choosenim.sh && \
     chmod +x ./choosenim.sh && \
-    ./choosenim.sh -y && \
     mkdir /opt/nimble && \
-    mv /home/jovyan/.nimble/bin /opt/nimble
+    mkdir /opt/choosenim && \
+    ./choosenim.sh -y --choosenimDir:${CHOOSENIM_DIR} --nimbleDir:${NIMBLE_DIR} && \
+    rm ./choosenim.sh
 ENV PATH=$NIMBLE_DIR/bin:$PATH
-RUN fix-permissions $NIMBLE_DIR
+RUN fix-permissions $NIMBLE_DIR ${CHOOSENIM_DIR}
 RUN yes 'y' | nimble install --verbose \
     arraymancer \
     gnuplot \
@@ -489,7 +492,10 @@ RUN cd /opt && \
     git clone https://github.com/fredokun/cl-jupyter && \
     cd cl-jupyter && \
     python3 ./install-cl-jupyter.py && \
-    sbcl --load ./cl-jupyter.lisp
+    sbcl --load ./cl-jupyter.lisp && \
+    mv ${HOME}/.local/share/jupyter/kernels/lisp /usr/local/share/jupyter/kernels/lisp && \
+    rm -rf  ${HOME}/.local && \
+    fix-permissions /usr/local/share/jupyter/kernels ${HOME}
 
 # OCAML
 RUN apt update && \
@@ -542,7 +548,8 @@ RUN cd /opt && \
     wget https://github.com/fsprojects/IfSharp/releases/download/v3.0.0/IfSharp.v3.0.0.zip && \
     unzip IfSharp.v3.0.0.zip && \
     mono ifsharp.exe && \
-    mv ${HOME}/.local/share/jupyter/kernels/ifsharp/ /usr/local/share/jupyter/kernels/ifsharp/ && \
+    mv ${HOME}/.local/share/jupyter/kernels/ifsharp /usr/local/share/jupyter/kernels/ifsharp && \
+    rm -rf ${HOME}/.local && \
     fix-permissions /usr/local/share/jupyter/kernels ${HOME} /opt/ifsharp
 
 # Go
@@ -559,13 +566,15 @@ RUN cd /opt && \
     mkdir -p /usr/local/share/jupyter/kernels/gophernotes && \
     cp /opt/gophernotes/kernel/* /usr/local/share/jupyter/kernels/gophernotes && \
     fix-permissions /opt/gophernotes /usr/local/share/jupyter/kernels/
-ENV PATH=/opt/gophernotes:$PATH
+ENV PATH=/opt/gophernotes:/usr/local/share/jupyter/kernels/gophernotes:$PATH
 
 # C
 RUN pip install cffi_magic \
     jupyter-c-kernel && \
     install_c_kernel && \
-    rm -rf /home/$NB_USER/.cache/pip && \    
+    rm -rf /home/$NB_USER/.cache/pip && \
+    mv ${HOME}/.local/share/jupyter/kernels/c /usr/local/share/jupyter/kernels/c && \
+    rm -rf  ${HOME}/.local && \
     fix-permissions /usr/local/share/jupyter/kernels ${HOME}
 
 # Fortran
@@ -797,8 +806,12 @@ RUN cd /tmp && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Rust and Rusti
-ENV PATH=${HOME}/.cargo/bin:$PATH
+# Rust and Rust
+RUN mkdir /opt/cargo && \
+    mkdir /opt/rustup
+ENV CARGO_HOME=/opt/cargo \
+    RUSTUP_PATH=/opt/rustup
+ENV PATH=/opt/cargo/bin:$PATH
 RUN cd /tmp && \
     curl https://sh.rustup.rs -sSf | sh -s -- -y && \
     cargo install cargo-script && \
@@ -817,9 +830,13 @@ RUN npm install -g ijavascript \
     ijsinstall
 
 USER root
-RUN fix-permissions /opt/npm ${HOME} /usr/local/share/jupyter/kernels
+RUN  mv ${HOME}/.local/share/jupyter/kernels/javascript /usr/local/share/jupyter/kernels/javascript && \
+    rm -rf ${HOME}/.local && \
+    fix-permissions /opt/npm ${HOME} /usr/local/share/jupyter/kernels
 
 USER ${NB_USER}
 RUN cd ${HOME} && \
     rm fix-permissions && \
-    rm choosenim.sh
+    rm choosenim.sh && \
+    rm -rf .cache && \
+    rm -rf .nimble
