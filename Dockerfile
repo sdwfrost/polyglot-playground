@@ -836,7 +836,4 @@ RUN  mv ${HOME}/.local/share/jupyter/kernels/javascript /usr/local/share/jupyter
 
 USER ${NB_USER}
 RUN cd ${HOME} && \
-    rm fix-permissions && \
-    rm choosenim.sh && \
-    rm -rf .cache && \
-    rm -rf .nimble
+    rm fix-permissions
