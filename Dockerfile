@@ -330,7 +330,7 @@ RUN cd /tmp && \
     chmod +x ./choosenim.sh && \
     mkdir /opt/nimble && \
     mkdir /opt/choosenim && \
-    ./choosenim.sh -y --choosenimDir:${CHOOSENIM_DIR} --nimbleDir:${NIMBLE_DIR} && \
+    ./choosenim.sh --choosenimDir:${CHOOSENIM_DIR} --nimbleDir:${NIMBLE_DIR} -y && \
     rm ./choosenim.sh
 ENV PATH=$NIMBLE_DIR/bin:$PATH
 RUN fix-permissions $NIMBLE_DIR ${CHOOSENIM_DIR}
