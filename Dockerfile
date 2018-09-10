@@ -497,8 +497,8 @@ RUN cd /opt && \
     cd cl-jupyter && \
     python3 ./install-cl-jupyter.py && \
     sbcl --load ./cl-jupyter.lisp && \
-    mv ${HOME}/.local/share/jupyter/kernels/lisp /usr/local/share/jupyter/kernels/lisp && \
-    rm -rf  ${HOME}/.local && \
+    # mv ${HOME}/.local/share/jupyter/kernels/lisp /usr/local/share/jupyter/kernels/lisp && \
+    # rm -rf  ${HOME}/.local && \
     fix-permissions /usr/local/share/jupyter/kernels ${HOME}
 
 # OCAML
