@@ -328,12 +328,16 @@ ENV CHOOSENIM_DIR=/opt/choosenim
 RUN cd /tmp && \
     curl https://nim-lang.org/choosenim/init.sh -sSf > choosenim.sh && \
     chmod +x ./choosenim.sh && \
-    mkdir /opt/nimble && \
-    mkdir /opt/choosenim && \
-    ./choosenim.sh --choosenimDir:${CHOOSENIM_DIR} --nimbleDir:${NIMBLE_DIR} -y && \
-    rm ./choosenim.sh
-ENV PATH=$NIMBLE_DIR/bin:$PATH
-RUN fix-permissions $NIMBLE_DIR ${CHOOSENIM_DIR}
+    ./choosenim.sh -y && \
+    rm ./choosenim.sh && \
+    mkdir ${NIMBLE_DIR} && \
+    mkdir ${CHOOSENIM_DIR} && \
+    mv ${HOME}/.nimble ${NIMBLE_DIR} && \
+    mv ${HOME}/.choosenim ${CHOOSENIM_DIR} && \
+    rm -rf ${HOME}/.nimble && \
+    rm -rf ${HOME}/.choosenim
+ENV PATH=${NIMBLE_DIR}/bin:${CHOOSENIM_DIR}:$PATH
+RUN fix-permissions ${NIMBLE_DIR} ${CHOOSENIM_DIR}
 RUN yes 'y' | nimble install --verbose \
     arraymancer \
     gnuplot \
