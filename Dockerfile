@@ -338,7 +338,7 @@ RUN cd /tmp && \
     rm -rf ${HOME}/.choosenim
 ENV PATH=${NIMBLE_DIR}/bin:${CHOOSENIM_DIR}:$PATH
 RUN fix-permissions ${NIMBLE_DIR} ${CHOOSENIM_DIR}
-RUN yes 'y' | nimble install --verbose \
+RUN yes 'y' | /opt/nimble/bin/nimble install --verbose \
     arraymancer \
     gnuplot \
     inim \
