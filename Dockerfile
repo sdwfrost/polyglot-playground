@@ -614,7 +614,7 @@ RUN cd /tmp && \
     cd libzmq && \
     mkdir build && \
     cd build && \
-    cmake -DWITH_PERF_TOOL=OFF -DZMQ_BUILD_TESTS=OFF -DENABLE_CPACK=OFF -DCMAKE_BUILD_TYPE=Release ..  && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib -DWITH_PERF_TOOL=OFF -DZMQ_BUILD_TESTS=OFF -DENABLE_CPACK=OFF -DCMAKE_BUILD_TYPE=Release ..  && \
     make && \
     make install && \
     cd /tmp && \
@@ -625,7 +625,7 @@ RUN cd /tmp && \
     cd cppzmq && \
     mkdir build && \
     cd build && \
-    cmake -D CMAKE_BUILD_TYPE=Release .. && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib -DCMAKE_BUILD_TYPE=Release .. && \
     make install && \
     cd /tmp && \
     rm -rf cppzmq
@@ -639,7 +639,7 @@ RUN cd /tmp && \
     cp "$PWD/cmake/CMakeLists.txt" "$PWD" && \
     mkdir build && \
     cd build && \
-    cmake -D BUILD_SHARED=OFF -D BUILD_TESTING=OFF -D CMAKE_BUILD_TYPE=Release .. && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib -DBUILD_SHARED=OFF -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release .. && \
     make && \
     make install && \
     cd /tmp && \
@@ -648,7 +648,7 @@ RUN cd /tmp && \
 RUN cd /tmp && \
     git clone https://github.com/nlohmann/json && \
     cd json && \
-    cmake . && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib . && \
     make && \
     make install && \
     cd /tmp && \
@@ -659,7 +659,7 @@ RUN cd /tmp && \
     cd xtl && \
     mkdir build && \
     cd build && \
-    cmake -D CMAKE_BUILD_TYPE=Release .. && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib -DCMAKE_BUILD_TYPE=Release .. && \
     make install && \
     cd /tmp && \
     rm -rf xtl
@@ -670,28 +670,28 @@ RUN apt-get update && \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-#RUN cd /tmp && \
-#    git clone https://github.com/QuantStack/xeus && \
-#    cd xeus && \
-#    mkdir build && \
-#    cd build && \
-#    cmake -D BUILD_EXAMPLES=ON -D CMAKE_BUILD_TYPE=Release .. && \
-#    make && \
-#    make install && \
-#    cd /tmp && \
-#    rm -rf xeus
+RUN cd /tmp && \
+    git clone https://github.com/QuantStack/xeus && \
+    cd xeus && \
+    mkdir build && \
+    cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib -DBUILD_EXAMPLES=ON -DCMAKE_BUILD_TYPE=Release .. && \
+    make && \
+    make install && \
+    cd /tmp && \
+    rm -rf xeus
 
-#RUN cd /tmp && \
-#    git clone https://github.com/QuantStack/xeus-cling && \
-#    cd xeus-cling && \
-#    mkdir build && \
-#    cd build && \
-#    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib .. && \
-#    make && \
-#    make install && \
-#    cd /tmp && \
-#    rm -rf xeus-cling && \
-#    fix-permissions /opt/cling
+RUN cd /tmp && \
+    git clone https://github.com/QuantStack/xeus-cling && \
+    cd xeus-cling && \
+    mkdir build && \
+    cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/cling -DCMAKE_INSTALL_LIBDIR=/opt/cling/lib .. && \
+    make && \
+    make install && \
+    cd /tmp && \
+    rm -rf xeus-cling && \
+    fix-permissions /opt/cling
 
 # Haskell
 RUN mkdir ${HOME}/.stack && \
